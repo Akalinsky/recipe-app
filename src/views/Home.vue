@@ -1,17 +1,26 @@
 <template>
-  <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="recipe-view">
+    <RecipeList />
+    <RecipeSingle />
   </div>
 </template>
 
 <script>
+import RecipeList from '@/components/app/RecipeList'
+import RecipeSingle from '@/components/app/RecipeSingle'
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
-  name: 'Home',
   components: {
-    HelloWorld
+    RecipeList,
+    RecipeSingle
   }
 }
 </script>
+
+<style lang="scss">
+  .recipe-view {
+    display: flex;
+    height: 100%;
+  }
+</style>
