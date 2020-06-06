@@ -15,7 +15,7 @@ export default new Vuex.Store({
           'sauce'
         ],
         description: 'A spicy pork sausage tomato cream sauce',
-        steps: [
+        directions: [
           'Brown sausage in a large pot',
           'Add parsley and cook breifly',
           'Add white wine and cook until slightly reduced',
@@ -42,7 +42,7 @@ export default new Vuex.Store({
           'slow-cooker'
         ],
         description: 'A Mexican slow cooked pork, typically is slightly crispy',
-        steps: [
+        directions: [
           'Preheat oven to 275 &deg; F',
           'Cut pork shoulder into 1.5-2 inch equally sized pieces',
           'Add ingredients to oven and broiler safe baking dish',
@@ -73,7 +73,7 @@ export default new Vuex.Store({
           'sauce'
         ],
         description: 'A spicy pork sausage tomato cream sauce',
-        steps: [
+        directions: [
           'Brown sausage in a large pot',
           'Add parsley and cook breifly',
           'Add white wine and cook until slightly reduced',
@@ -100,7 +100,7 @@ export default new Vuex.Store({
           'slow-cooker'
         ],
         description: 'A Mexican slow cooked pork, typically is slightly crispy',
-        steps: [
+        directions: [
           'Preheat oven to 275 &deg; F',
           'Cut pork shoulder into 1.5-2 inch equally sized pieces',
           'Add ingredients to oven and broiler safe baking dish',
@@ -131,7 +131,7 @@ export default new Vuex.Store({
           'sauce'
         ],
         description: 'A spicy pork sausage tomato cream sauce',
-        steps: [
+        directions: [
           'Brown sausage in a large pot',
           'Add parsley and cook breifly',
           'Add white wine and cook until slightly reduced',
@@ -158,7 +158,7 @@ export default new Vuex.Store({
           'slow-cooker'
         ],
         description: 'A Mexican slow cooked pork, typically is slightly crispy',
-        steps: [
+        directions: [
           'Preheat oven to 275 &deg; F',
           'Cut pork shoulder into 1.5-2 inch equally sized pieces',
           'Add ingredients to oven and broiler safe baking dish',
@@ -189,7 +189,7 @@ export default new Vuex.Store({
           'sauce'
         ],
         description: 'A spicy pork sausage tomato cream sauce',
-        steps: [
+        directions: [
           'Brown sausage in a large pot',
           'Add parsley and cook breifly',
           'Add white wine and cook until slightly reduced',
@@ -216,7 +216,7 @@ export default new Vuex.Store({
           'slow-cooker'
         ],
         description: 'A Mexican slow cooked pork, typically is slightly crispy',
-        steps: [
+        directions: [
           'Preheat oven to 275 &deg; F',
           'Cut pork shoulder into 1.5-2 inch equally sized pieces',
           'Add ingredients to oven and broiler safe baking dish',
@@ -247,7 +247,7 @@ export default new Vuex.Store({
           'sauce'
         ],
         description: 'A spicy pork sausage tomato cream sauce',
-        steps: [
+        directions: [
           'Brown sausage in a large pot',
           'Add parsley and cook breifly',
           'Add white wine and cook until slightly reduced',
@@ -274,7 +274,7 @@ export default new Vuex.Store({
           'slow-cooker'
         ],
         description: 'A Mexican slow cooked pork, typically is slightly crispy',
-        steps: [
+        directions: [
           'Preheat oven to 275 &deg; F',
           'Cut pork shoulder into 1.5-2 inch equally sized pieces',
           'Add ingredients to oven and broiler safe baking dish',
@@ -304,7 +304,7 @@ export default new Vuex.Store({
           'sauce'
         ],
         description: 'A spicy pork sausage tomato cream sauce',
-        steps: [
+        directions: [
           'Brown sausage in a large pot',
           'Add parsley and cook breifly',
           'Add white wine and cook until slightly reduced',
@@ -331,7 +331,7 @@ export default new Vuex.Store({
           'slow-cooker'
         ],
         description: 'A Mexican slow cooked pork, typically is slightly crispy',
-        steps: [
+        directions: [
           'Preheat oven to 275 &deg; F',
           'Cut pork shoulder into 1.5-2 inch equally sized pieces',
           'Add ingredients to oven and broiler safe baking dish',
@@ -362,7 +362,7 @@ export default new Vuex.Store({
           'sauce'
         ],
         description: 'A spicy pork sausage tomato cream sauce',
-        steps: [
+        directions: [
           'Brown sausage in a large pot',
           'Add parsley and cook breifly',
           'Add white wine and cook until slightly reduced',
@@ -389,7 +389,7 @@ export default new Vuex.Store({
           'slow-cooker'
         ],
         description: 'A Mexican slow cooked pork, typically is slightly crispy',
-        steps: [
+        directions: [
           'Preheat oven to 275 &deg; F',
           'Cut pork shoulder into 1.5-2 inch equally sized pieces',
           'Add ingredients to oven and broiler safe baking dish',
@@ -420,7 +420,7 @@ export default new Vuex.Store({
           'sauce'
         ],
         description: 'A spicy pork sausage tomato cream sauce',
-        steps: [
+        directions: [
           'Brown sausage in a large pot',
           'Add parsley and cook breifly',
           'Add white wine and cook until slightly reduced',
@@ -447,7 +447,7 @@ export default new Vuex.Store({
           'slow-cooker'
         ],
         description: 'A Mexican slow cooked pork, typically is slightly crispy',
-        steps: [
+        directions: [
           'Preheat oven to 275 &deg; F',
           'Cut pork shoulder into 1.5-2 inch equally sized pieces',
           'Add ingredients to oven and broiler safe baking dish',
@@ -478,7 +478,7 @@ export default new Vuex.Store({
           'sauce'
         ],
         description: 'A spicy pork sausage tomato cream sauce',
-        steps: [
+        directions: [
           'Brown sausage in a large pot',
           'Add parsley and cook breifly',
           'Add white wine and cook until slightly reduced',
@@ -505,7 +505,7 @@ export default new Vuex.Store({
           'slow-cooker'
         ],
         description: 'A Mexican slow cooked pork, typically is slightly crispy',
-        steps: [
+        directions: [
           'Preheat oven to 275 &deg; F',
           'Cut pork shoulder into 1.5-2 inch equally sized pieces',
           'Add ingredients to oven and broiler safe baking dish',
@@ -528,11 +528,11 @@ export default new Vuex.Store({
         }
       }
     ],
-    currentRecipe: 0
+    currentRecipeIndex: 0
   },
   mutations: {
     changeCurrentRecipe (state, recipeIndex) {
-      state.currentRecipe = recipeIndex
+      state.currentRecipeIndex = recipeIndex
     }
   },
   actions: {
@@ -541,7 +541,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
-
+    getCurrentRecipe: state => {
+      return state.recipes[state.currentRecipeIndex]
+    }
   },
   modules: {
   }

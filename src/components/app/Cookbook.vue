@@ -1,6 +1,6 @@
 <template>
     <ul class="recipes-list">
-      <li v-on:click="changeCurrentRecipe(index)" :class="{ 'selected':(index == currentRecipe)}" v-for="(recipe, index) in recipes" :key="index">
+      <li v-on:click="changeCurrentRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex)}" v-for="(recipe, index) in recipes" :key="index">
         <h3>{{ recipe.name }}</h3>
         <div class="tags-list">
           <span class="recipe-tag" v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
@@ -16,7 +16,7 @@ export default {
   computed: {
     ...mapState({
       recipes: 'recipes',
-      currentRecipe: 'currentRecipe'
+      currentRecipeIndex: 'currentRecipeIndex'
     })
   },
   methods: {

@@ -1,19 +1,19 @@
 <template>
   <div class="recipe-view">
-    <RecipeList />
-    <RecipeSingle />
+    <Cookbook />
+    <Recipe />
   </div>
 </template>
 
 <script>
-import RecipeList from '@/components/app/RecipeList'
-import RecipeSingle from '@/components/app/RecipeSingle'
+import Cookbook from '@/components/app/Cookbook'
+import Recipe from '@/components/app/Recipe'
 // @ is an alias to /src
 
 export default {
   components: {
-    RecipeList,
-    RecipeSingle
+    Cookbook,
+    Recipe
   }
 }
 </script>
