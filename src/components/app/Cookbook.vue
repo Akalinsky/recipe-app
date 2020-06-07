@@ -1,6 +1,6 @@
 <template>
     <ul class="recipes-list">
-      <li v-on:click="changeCurrentRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex)}" v-for="(recipe, index) in recipes" :key="index">
+      <li v-on:click="changeCurrentRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex)}" v-for="(recipe, index) in cookbook" :key="index">
         <h3>{{ recipe.name }}</h3>
         <div class="tags-list">
           <span class="recipe-tag" v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
@@ -15,14 +15,18 @@ import { mapState, mapActions } from 'vuex'
 export default {
   computed: {
     ...mapState({
-      recipes: 'recipes',
+      cookbook: 'cookbook',
       currentRecipeIndex: 'currentRecipeIndex'
     })
   },
   methods: {
     ...mapActions({
-      changeCurrentRecipe: 'changeCurrentRecipe'
+      changeCurrentRecipe: 'changeCurrentRecipe',
+      getCookbook: 'getCookbook'
     })
+  },
+  created () {
+    this.getCookbook()
   }
 }
 </script>
