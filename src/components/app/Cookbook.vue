@@ -71,7 +71,7 @@ export default {
           margin: 5px;
           padding: 7px;
           background: #42b983;
-          border-radius: 20px;
+          border-radius: 15px;
           color: #fff;
         }
       }

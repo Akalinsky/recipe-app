@@ -1,8 +1,8 @@
 <template>
-  <div class="recipe-single">
+  <div v-if="getCurrentRecipe" class="recipe-single">
     <div class="recipe-header">
 
-      <h1>{{ getCurrentRecipe.name  }}</h1>
+      <h1 class="recipe-title">{{ getCurrentRecipe.name  }}</h1>
 
       <span class="description">{{ getCurrentRecipe.description }} </span>
 
@@ -10,6 +10,7 @@
         <span class="recipe-tag" v-for="tag in getCurrentRecipe.tags" :key="tag">{{ tag }}</span>
       </div>
 
+      <div @click="deleteRecipe(getCurrentRecipe.name)" class="delete-recipe">Delete Reipe</div>
     </div>
     <div class="recipe-list">
       <h2>Ingredients</h2>
@@ -29,13 +30,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-
   computed: {
     ...mapGetters({
       getCurrentRecipe: 'getCurrentRecipe'
+    })
+  },
+  methods: {
+    ...mapActions({
+      deleteRecipe: 'deleteRecipe'
     })
   }
 }
@@ -56,7 +61,7 @@ export default {
   flex-flow: row nowrap;
   justify-content: space-around;
   .recipe-header {
-    h1 {
+    h1.recipe-title {
       font-size: 42px;
       margin: 0;
       padding: 0 0 20px 0;
@@ -73,9 +78,20 @@ export default {
           margin: 5px;
           padding: 7px;
           background: #42b983;
-          border-radius: 20px;
+          border-radius: 5px;
           color: #fff;
       }
+    }
+    .delete-recipe {
+      display: inline-block;
+      text-align: center;
+      margin: 10px auto;
+      background: red;
+      color: #fff;
+      border-radius: 5px;
+      padding: 5px;
+      cursor: pointer;
+
     }
   }
   .recipe-list {

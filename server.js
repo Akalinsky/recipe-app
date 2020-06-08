@@ -4,10 +4,25 @@ const MongoClient = require('mongodb').MongoClient
 const cors = require('cors')
 
 app.use(cors())
+app.use(express.json())
 
 app.get('/', async (req, res) => {
-  const recipes = await loadRecipesCollection()
-  res.send(await recipes.find().toArray())
+  try {
+    const recipes = await loadRecipesCollection()
+    res.send(await recipes.find().toArray())
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+app.delete('/', async (req, res) => {
+  try {
+    const recipes = await loadRecipesCollection()
+    await recipes.deleteOne({ name: req.body.name })
+    return res.json('Testing')
+  } catch (err) {
+    console.error(err)
+  }
 })
 
 app.listen(3000, function () {
