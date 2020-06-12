@@ -4,12 +4,14 @@ const MongoClient = require('mongodb').MongoClient
 const cors = require('cors')
 
 app.use(cors())
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
 app.get('/', async (req, res) => {
   try {
     const recipes = await loadRecipesCollection()
-    res.send(await recipes.find().toArray())
+    const recipeName = { name: 1 }
+    res.send(await recipes.find().sort(recipeName).toArray())
   } catch (err) {
     console.log(err)
   }
@@ -18,8 +20,16 @@ app.get('/', async (req, res) => {
 app.delete('/', async (req, res) => {
   try {
     const recipes = await loadRecipesCollection()
-    await recipes.deleteOne({ name: req.body.name })
-    return res.json('Testing')
+    await recipes.deleteOne({ _id: req.body._id })
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+app.post('/', async (req, res) => {
+  try {
+    const recipes = await loadRecipesCollection()
+    await recipes.insertOne(req.body)
   } catch (err) {
     console.error(err)
   }

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { v4 as uuidv4 } from 'uuid'
 const dbURL = 'http://localhost:3000/'
 
 Vue.use(Vuex)
@@ -10,21 +11,58 @@ export default new Vuex.Store({
     currentRecipeIndex: 0
   },
   mutations: {
+    addRecipe (state) {
+      state.cookbook.unshift({
+        _id: uuidv4(),
+        name: '',
+        tags: [],
+        description: '',
+        directions: [],
+        ingredients: {}
+      })
+    },
     changeCurrentRecipe (state, recipeIndex) {
       state.currentRecipeIndex = recipeIndex
     },
     getCookbook (state, recipes) {
       state.cookbook = recipes
     },
-    deleteRecipe (state, recipeName) {
+    deleteRecipe (state, deletedRecipe) {
       state.cookbook = state.cookbook.filter(recipe => {
-        if (recipeName !== recipe.name) {
+        if (deletedRecipe._id !== recipe._id) {
           return recipe
         }
       })
+      if (state.currentRecipeIndex > 0) {
+        state.currentRecipeIndex = state.currentRecipeIndex - 1
+      } else {
+        state.currentRecipeIndex = 0
+      }
     }
   },
   actions: {
+    addRecipe (context) {
+      window.fetch(dbURL, {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify({
+          _id: uuidv4(),
+          name: '',
+          tags: [],
+          description: '',
+          directions: [],
+          ingredients: {}
+        })
+      })
+        .then(res => {
+          if (res.ok) console.log(res.json)
+        })
+        .then(
+          context.commit('addRecipe')
+          // context.dispatch('getCookbook')
+        )
+        .catch(err => console.error(err))
+    },
     getCookbook (context) {
       window.fetch(dbURL)
         .then(response => response.json())
@@ -34,13 +72,13 @@ export default new Vuex.Store({
     changeCurrentRecipe (context, recipeIndex) {
       context.commit('changeCurrentRecipe', recipeIndex)
     },
-    deleteRecipe (context, recipeName) {
-      if (window.confirm(`Do you really want to delete ${recipeName}`)) {
+    deleteRecipe (context, deletedRecipe) {
+      if (window.confirm(`Do you really want to delete ${deletedRecipe.name}`)) {
         window.fetch(dbURL, {
           method: 'delete',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            name: recipeName
+            _id: deletedRecipe._id
           })
         })
           .then(res => {
@@ -50,7 +88,7 @@ export default new Vuex.Store({
           // Or fetching the cookbook again from the DB?
           // Works on Second click - super odd. Undecided - **REVISIT**
           // .then(context.dispatch('getCookbook'))
-          .then(context.commit('deleteRecipe', recipeName))
+          .then(context.commit('deleteRecipe', deletedRecipe))
           .catch(err => console.error(err))
       }
     }

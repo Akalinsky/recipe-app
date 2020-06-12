@@ -10,7 +10,7 @@
         <span class="recipe-tag" v-for="tag in getCurrentRecipe.tags" :key="tag">{{ tag }}</span>
       </div>
 
-      <div @click="deleteRecipe(getCurrentRecipe.name)" class="delete-recipe">Delete Reipe</div>
+      <div @click="deleteRecipe(getCurrentRecipe)" class="delete-recipe">Delete Reipe</div>
     </div>
     <div class="recipe-list">
       <h2>Ingredients</h2>
