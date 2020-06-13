@@ -11,9 +11,9 @@ export default new Vuex.Store({
     currentRecipeIndex: 0
   },
   mutations: {
-    addRecipe (state) {
+    addRecipe (state, uuid) {
       state.cookbook.unshift({
-        _id: uuidv4(),
+        _id: uuid,
         name: '',
         tags: [],
         description: '',
@@ -42,11 +42,12 @@ export default new Vuex.Store({
   },
   actions: {
     addRecipe (context) {
+      const uuid = uuidv4()
       window.fetch(dbURL, {
         method: 'post',
         headers: { 'Content-Type': 'application/json; charset=UTF-8' },
         body: JSON.stringify({
-          _id: uuidv4(),
+          _id: uuid,
           name: '',
           tags: [],
           description: '',
@@ -58,7 +59,7 @@ export default new Vuex.Store({
           if (res.ok) console.log(res.json)
         })
         .then(
-          context.commit('addRecipe')
+          context.commit('addRecipe', uuid)
           // context.dispatch('getCookbook')
         )
         .catch(err => console.error(err))
