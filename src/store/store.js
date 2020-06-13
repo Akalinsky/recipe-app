@@ -8,7 +8,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cookbook: [],
-    currentRecipeIndex: 0
+    currentRecipeIndex: 0,
+    editingRecipe: false,
+    changesDetected: false
   },
   mutations: {
     addRecipe (state, uuid) {
@@ -21,11 +23,14 @@ export default new Vuex.Store({
         ingredients: {}
       })
     },
+    endEditing (state) {
+      state.editingRecipe = false
+    },
     changeCurrentRecipe (state, recipeIndex) {
       state.currentRecipeIndex = recipeIndex
     },
-    getCookbook (state, recipes) {
-      state.cookbook = recipes
+    changesDetected (state, status) {
+      state.changesDetected = status
     },
     deleteRecipe (state, deletedRecipe) {
       state.cookbook = state.cookbook.filter(recipe => {
@@ -38,6 +43,12 @@ export default new Vuex.Store({
       } else {
         state.currentRecipeIndex = 0
       }
+    },
+    editRecipe (state) {
+      state.editingRecipe = true
+    },
+    getCookbook (state, recipes) {
+      state.cookbook = recipes
     }
   },
   actions: {
@@ -64,14 +75,14 @@ export default new Vuex.Store({
         )
         .catch(err => console.error(err))
     },
-    getCookbook (context) {
-      window.fetch(dbURL)
-        .then(response => response.json())
-        .then(data => context.commit('getCookbook', data))
-        .catch(err => console.error(err))
+    endEditing (context) {
+      context.commit('endEditing')
     },
     changeCurrentRecipe (context, recipeIndex) {
       context.commit('changeCurrentRecipe', recipeIndex)
+    },
+    changesDetected (context, status) {
+      context.commit('changesDetected', status)
     },
     deleteRecipe (context, deletedRecipe) {
       if (window.confirm(`Do you really want to delete ${deletedRecipe.name}`)) {
@@ -92,6 +103,29 @@ export default new Vuex.Store({
           .then(context.commit('deleteRecipe', deletedRecipe))
           .catch(err => console.error(err))
       }
+    },
+    editRecipe (context) {
+      context.commit('editRecipe')
+    },
+    getCookbook (context) {
+      window.fetch(dbURL)
+        .then(response => response.json())
+        .then(data => context.commit('getCookbook', data))
+        .catch(err => console.error(err))
+    },
+    saveRecipe (context, updatedRecipe) {
+      console.log(updatedRecipe)
+      window.fetch(dbURL, {
+        method: 'put',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedRecipe)
+      })
+        .then(res => {
+          if (res.ok) return res.json()
+        })
+        .then(context.commit('endEditing'))
+        .then(context.commit('changesDetected', false))
+        .catch(err => console.error(err))
     }
   },
   getters: {

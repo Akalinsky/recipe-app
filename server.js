@@ -35,6 +35,29 @@ app.post('/', async (req, res) => {
   }
 })
 
+app.put('/', async (req, res) => {
+  try {
+    const recipes = await loadRecipesCollection()
+    await recipes.findOneAndUpdate(
+      { _id: req.body._id },
+      {
+        $set: {
+          name: req.body.name,
+          description: req.body.description,
+          tags: req.body.tags,
+          ingredients: req.body.ingredients,
+          directions: req.body.directions
+        }
+      },
+      {
+        upsert: true
+      }
+    )
+  } catch (err) {
+    console.error(err)
+  }
+})
+
 app.listen(3000, function () {
   console.log('listening on 3000')
 })

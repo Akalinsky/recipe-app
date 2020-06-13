@@ -2,7 +2,7 @@
   <div class="sidebar-container">
     <AddRecipe />
     <ul class="recipes-list">
-      <li v-on:click="changeCurrentRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == '')}" v-for="(recipe, index) in cookbook" :key="index">
+      <li v-on:click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == '')}" v-for="(recipe, index) in cookbook" :key="index">
         <h3>{{ recipe.name }}</h3>
         <div class="tags-list">
           <span class="recipe-tag" v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
@@ -23,14 +23,28 @@ export default {
   computed: {
     ...mapState({
       cookbook: 'cookbook',
-      currentRecipeIndex: 'currentRecipeIndex'
+      currentRecipeIndex: 'currentRecipeIndex',
+      editingRecipe: 'editingRecipe'
     })
   },
   methods: {
     ...mapActions({
       changeCurrentRecipe: 'changeCurrentRecipe',
-      getCookbook: 'getCookbook'
-    })
+      getCookbook: 'getCookbook',
+      endEditing: 'endEditing',
+      changesDetected: 'changesDetected'
+    }),
+    changeRecipe (index) {
+      if (this.editingRecipe === true) {
+        if (window.confirm('Changing recipes will cause you to lose changes to previous edits. Continue?')) {
+          this.endEditing()
+          this.changesDetected(false)
+          this.changeCurrentRecipe(index)
+        }
+      } else {
+        this.changeCurrentRecipe(index)
+      }
+    }
   },
   created () {
     this.getCookbook()
@@ -91,7 +105,7 @@ export default {
             margin: 5px;
             padding: 7px;
             background: #42b983;
-            border-radius: 15px;
+            border-radius: 5px;
             color: #fff;
           }
         }

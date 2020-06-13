@@ -1,5 +1,5 @@
 <template>
-  <div v-if="getCurrentRecipe" class="recipe-single">
+  <div v-if="(getCurrentRecipe && !editingRecipe)" class="recipe-single">
     <div class="recipe-header">
 
       <h1 class="recipe-title">{{ getCurrentRecipe.name  }}</h1>
@@ -10,7 +10,11 @@
         <span class="recipe-tag" v-for="tag in getCurrentRecipe.tags" :key="tag">{{ tag }}</span>
       </div>
 
-      <div @click="deleteRecipe(getCurrentRecipe)" class="delete-recipe">Delete Reipe</div>
+      <div class="recipe-actions">
+        <div @click="editRecipe()" class="edit-recipe recipe-action">Edit Recipe</div>
+        <div @click="deleteRecipe(getCurrentRecipe)" class="delete-recipe recipe-action">Delete Recipe</div>
+      </div>
+
     </div>
     <div class="recipe-list">
       <h2>Ingredients</h2>
@@ -30,17 +34,21 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   computed: {
+    ...mapState({
+      editingRecipe: 'editingRecipe'
+    }),
     ...mapGetters({
       getCurrentRecipe: 'getCurrentRecipe'
     })
   },
   methods: {
     ...mapActions({
-      deleteRecipe: 'deleteRecipe'
+      deleteRecipe: 'deleteRecipe',
+      editRecipe: 'editRecipe'
     })
   }
 }
@@ -75,23 +83,34 @@ export default {
         justify-content: flex-start;
       .recipe-tag {
           font-size: 18px;
-          margin: 5px;
+          margin: 5px 5px 5px 0;
           padding: 7px;
           background: #42b983;
           border-radius: 5px;
           color: #fff;
       }
     }
-    .delete-recipe {
-      display: inline-block;
-      text-align: center;
-      margin: 10px auto;
-      background: red;
-      color: #fff;
-      border-radius: 5px;
-      padding: 5px;
-      cursor: pointer;
+    .recipe-actions {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      flex-flow: row wrap;
+      .recipe-action {
+        display: inline-block;
+        margin: 0 15px 0 0;
+        color: #ffffff;
+        border-radius: 5px;
+        padding: 5px;
+        cursor: pointer;
+      }
+      .edit-recipe {
+        background: #1991eb
+      }
+      .delete-recipe {
 
+        background: red;
+
+      }
     }
   }
   .recipe-list {
