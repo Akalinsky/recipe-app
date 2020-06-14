@@ -102,14 +102,20 @@ export default {
         border-radius: 5px;
         padding: 5px;
         cursor: pointer;
-      }
-      .edit-recipe {
-        background: #1991eb
-      }
-      .delete-recipe {
-
-        background: red;
-
+        &.edit-recipe {
+          background: #1991eb;
+          &:hover {
+            background: darken(#1991eb, 10%);
+            transition: background .3s;
+          }
+        }
+        &.delete-recipe {
+          background: red;
+          &:hover {
+            background: darken(red, 10%);
+            transition: background .3s;
+          }
+        }
       }
     }
   }

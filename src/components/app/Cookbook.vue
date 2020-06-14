@@ -3,7 +3,7 @@
     <AddRecipe />
     <ul class="recipes-list">
       <li v-on:click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == '')}" v-for="(recipe, index) in cookbook" :key="index">
-        <h3>{{ recipe.name }}</h3>
+        <h3>{{ (recipe.name) ? recipe.name : "New Recipe" }}</h3>
         <div class="tags-list">
           <span class="recipe-tag" v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
         </div>
@@ -87,6 +87,7 @@ export default {
         flex-flow: column nowrap;
         &:hover {
           background: #d6d6d6;
+          transition: background .2s;
         }
         &.missing-title {
           background: #f4c430;

@@ -76,10 +76,8 @@ export default new Vuex.Store({
         .then(res => {
           if (res.ok) console.log(res.json)
         })
-        .then(
-          context.commit('addRecipe', uuid)
-          // context.dispatch('getCookbook')
-        )
+        .then(context.commit('addRecipe', uuid))
+        .then(context.commit('changeCurrentRecipe', 0))
         .catch(err => console.error(err))
     },
     changeCurrentRecipe (context, recipeIndex) {

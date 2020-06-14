@@ -1,16 +1,32 @@
 <template>
   <div v-if="(getCurrentRecipe && editingRecipe)" class="recipe-editor">
-    <h1>Edit Recipe</h1>
-    <label for="name">Name</label>
-    <input type="text" name="name" v-model="name">
+    <div class="recipe-info">
+      <h1>Edit Recipe</h1>
 
-    <label for="description">Description</label>
-    <input type="text" name="description" v-model="description">
+      <div class="field-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" v-model="name">
+      </div>
 
-    <input-tag v-model="tags"></input-tag>
+      <div class="field-group">
+        <label for="description">Description</label>
+        <input type="text" name="description" v-model="description">
+      </div>
 
-    <div @click="saveRecipe" class="save-recipe">Save</div>
-    <div @click="endEditing" class="cancel-edit">Cancel</div>
+      <div class="field-group">
+        <label>Tags</label>
+        <input-tag v-model="tags"></input-tag>
+      </div>
+
+      <div class="recipe-actions">
+        <div @click="saveRecipe" class="save-recipe recipe-action">Save</div>
+        <div @click="endEditing" class="cancel-edit recipe-action">Cancel</div>
+      </div>
+    </div>
+
+    <div class="recipe-ingredients recipe-list"></div>
+    <div class="recipe-steps recipe-list"></div>
+
   </div>
 </template>
 
@@ -92,13 +108,74 @@ export default {
     align-self: stretch;
     text-align: left;
     padding: 2%;
-    h1 {
-      font-size: 42px;
-      margin: 0;
-      padding: 0 0 20px 0;
+    display: flex;
+    flex-flow: row wrap;
+    .recipe-info {
+      flex-basis: 30%;
+      display: flex;
+      flex-flow: column wrap;
+      h1 {
+        font-size: 42px;
+        margin: 0;
+        padding: 0 0 20px 0;
+      }
+      .field-group {
+        display: flex;
+        flex-flow: column wrap;
+        margin: 10px;
+        label {
+          font-size: 18px;
+        }
+        input{
+          border-radius: 4px;
+          font-size: 16px;
+        }
+        input:not(.new-tag) {
+          padding: 12px 20px;
+          border: 1px solid #ccc;
+        }
+        .vue-input-tag-wrapper {
+          span.input-tag {
+            font-size: 16px;
+          }
+          input.new-tag {
+            font-size: 16px;
+            padding: 0 20px;
+          }
+        }
+      }
+      .recipe-actions {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        flex-flow: row wrap;
+        margin: 10px;
+        .recipe-action {
+          display: inline-block;
+          margin: 0 15px 0 0;
+          color: #ffffff;
+          border-radius: 5px;
+          padding: 5px;
+          cursor: pointer;
+          &.save-recipe {
+            background: #1991eb;
+            &:hover {
+              background: darken(#1991eb, 10%);
+              transition: background .3s;
+            }
+          }
+          &.cancel-edit {
+            background: red;
+            &:hover {
+              background: darken(red, 10%);
+              transition: background .3s;
+            }
+          }
+        }
+      }
     }
-    input, label {
-      display: block;
+    .recipe-list {
+      flex-basis: 35%;
     }
   }
 </style>
