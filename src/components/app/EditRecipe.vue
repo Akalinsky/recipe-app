@@ -1,6 +1,6 @@
 <template>
   <div v-if="(getCurrentRecipe && editingRecipe)" class="recipe-editor">
-    <div class="recipe-info">
+    <div class="recipe-info recipe-list">
       <h1>Edit Recipe</h1>
 
       <div class="field-group">
@@ -24,8 +24,12 @@
       </div>
     </div>
 
-    <div class="recipe-ingredients recipe-list"></div>
-    <div class="recipe-steps recipe-list"></div>
+    <div class="recipe-ingredients recipe-list">
+
+    </div>
+
+    <div class="recipe-steps recipe-list">
+    </div>
 
   </div>
 </template>
@@ -107,15 +111,10 @@ export default {
     padding: 2%;
     display: flex;
     flex-flow: row wrap;
-    .recipe-info {
-      flex-basis: 30%;
+    .recipe-list {
+      flex-basis: 35%;
       display: flex;
       flex-flow: column wrap;
-      h1 {
-        font-size: 42px;
-        margin: 0;
-        padding: 0 0 20px 0;
-      }
       .field-group {
         display: flex;
         flex-flow: column wrap;
@@ -141,38 +140,43 @@ export default {
           }
         }
       }
-      .recipe-actions {
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-        flex-flow: row wrap;
-        margin: 10px;
-        .recipe-action {
-          display: inline-block;
-          margin: 0 15px 0 0;
-          color: #ffffff;
-          border-radius: 5px;
-          padding: 5px;
-          cursor: pointer;
-          &.save-recipe {
-            background: #1991eb;
-            &:hover {
-              background: darken(#1991eb, 10%);
-              transition: background .3s;
+      &.recipe-info {
+        flex-basis: 30%;
+        h1 {
+          font-size: 42px;
+          margin: 0;
+          padding: 0 0 20px 0;
+        }
+        .recipe-actions {
+          width: 100%;
+          display: flex;
+          justify-content: flex-start;
+          flex-flow: row wrap;
+          margin: 10px;
+          .recipe-action {
+            display: inline-block;
+            margin: 0 15px 0 0;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 5px;
+            cursor: pointer;
+            &.save-recipe {
+              background: #1991eb;
+              &:hover {
+                background: darken(#1991eb, 10%);
+                transition: background .3s;
+              }
             }
-          }
-          &.cancel-edit {
-            background: red;
-            &:hover {
-              background: darken(red, 10%);
-              transition: background .3s;
+            &.cancel-edit {
+              background: red;
+              &:hover {
+                background: darken(red, 10%);
+                transition: background .3s;
+              }
             }
           }
         }
       }
-    }
-    .recipe-list {
-      flex-basis: 35%;
     }
   }
 </style>
