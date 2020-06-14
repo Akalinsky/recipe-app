@@ -38,6 +38,14 @@ export default {
   components: {
     InputTag
   },
+  methods: {
+    ...mapActions({
+      changedRecipe: 'changedRecipe',
+      saveRecipe: 'saveRecipe',
+      endEditing: 'endEditing',
+      updateDetected: 'updateDetected'
+    })
+  },
   computed: {
     ...mapState({
       editingRecipe: 'editingRecipe'
@@ -47,7 +55,7 @@ export default {
     }),
     name: {
       set (name) {
-        this.changesDetected(true)
+        this.updateDetected(true)
         this.$store.commit('updateContent', {
           _id: this.getCurrentRecipe._id,
           name: name
@@ -60,7 +68,7 @@ export default {
     },
     description: {
       set (description) {
-        this.changesDetected(true)
+        this.updateDetected(true)
         this.$store.commit('updateContent', {
           _id: this.getCurrentRecipe._id,
           description: description
@@ -72,7 +80,7 @@ export default {
     },
     tags: {
       set (tags) {
-        this.changesDetected(true)
+        this.updateDetected(true)
         this.$store.commit('updateContent', {
           _id: this.getCurrentRecipe._id,
           tags: tags
@@ -81,17 +89,6 @@ export default {
       get () {
         return this.getCurrentRecipe.tags
       }
-    }
-  },
-  methods: {
-    ...mapActions({
-      saveRecipe: 'saveRecipe',
-      endEditing: 'endEditing',
-      changesDetected: 'changesDetected',
-      changedRecipe: 'changedRecipe'
-    }),
-    formChanged (event) {
-      this.changesDetected(true)
     }
   }
 }

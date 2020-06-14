@@ -27,9 +27,6 @@ export default new Vuex.Store({
     changeCurrentRecipe (state, recipeIndex) {
       state.currentRecipeIndex = recipeIndex
     },
-    changesDetected (state, status) {
-      state.changesDetected = status
-    },
     clearRecipeChanges (state) {
       state.changedRecipe = {}
     },
@@ -50,6 +47,9 @@ export default new Vuex.Store({
     },
     getCookbook (state, recipes) {
       state.cookbook = recipes
+    },
+    updateChanges (state, status) {
+      state.changesDetected = status
     },
     updateCookbook (state) {
       Vue.set(state.cookbook, state.currentRecipeIndex, state.changedRecipe)
@@ -83,8 +83,8 @@ export default new Vuex.Store({
     changeCurrentRecipe (context, recipeIndex) {
       context.commit('changeCurrentRecipe', recipeIndex)
     },
-    changesDetected (context, status) {
-      context.commit('changesDetected', status)
+    updateDetected (context, status) {
+      context.commit('updateChanges', status)
     },
     deleteRecipe (context, deletedRecipe) {
       if (window.confirm(`Do you really want to delete ${deletedRecipe.name}`)) {
@@ -131,7 +131,7 @@ export default new Vuex.Store({
         })
         .then(context.commit('updateCookbook'))
         .then(context.commit('editingStatus', false))
-        .then(context.commit('changesDetected', false))
+        .then(context.commit('updateChanges', false))
         .catch(err => console.error(err))
     }
   },

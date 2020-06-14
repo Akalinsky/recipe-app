@@ -24,7 +24,8 @@ export default {
     ...mapState({
       cookbook: 'cookbook',
       currentRecipeIndex: 'currentRecipeIndex',
-      editingRecipe: 'editingRecipe'
+      editingRecipe: 'editingRecipe',
+      changesDetected: 'changesDetected'
     })
   },
   methods: {
@@ -32,16 +33,17 @@ export default {
       changeCurrentRecipe: 'changeCurrentRecipe',
       getCookbook: 'getCookbook',
       endEditing: 'endEditing',
-      changesDetected: 'changesDetected'
+      updateDetected: 'updateDetected'
     }),
     changeRecipe (index) {
       if (this.editingRecipe === true && this.changesDetected === true) {
         if (window.confirm('Changing recipes will cause you to lose changes to previous edits. Continue?')) {
           this.endEditing()
-          this.changesDetected(false)
+          this.updateDetected(false)
           this.changeCurrentRecipe(index)
         }
       } else {
+        console.log('Fired')
         this.endEditing()
         this.changeCurrentRecipe(index)
       }
