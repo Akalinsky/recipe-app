@@ -35,13 +35,14 @@ export default {
       changesDetected: 'changesDetected'
     }),
     changeRecipe (index) {
-      if (this.editingRecipe === true) {
+      if (this.editingRecipe === true && this.changesDetected === true) {
         if (window.confirm('Changing recipes will cause you to lose changes to previous edits. Continue?')) {
           this.endEditing()
           this.changesDetected(false)
           this.changeCurrentRecipe(index)
         }
       } else {
+        this.endEditing()
         this.changeCurrentRecipe(index)
       }
     }

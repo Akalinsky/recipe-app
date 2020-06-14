@@ -10,7 +10,8 @@ export default new Vuex.Store({
     cookbook: [],
     currentRecipeIndex: 0,
     editingRecipe: false,
-    changesDetected: false
+    changesDetected: false,
+    changedRecipe: {}
   },
   mutations: {
     addRecipe (state, uuid) {
@@ -23,14 +24,14 @@ export default new Vuex.Store({
         ingredients: {}
       })
     },
-    endEditing (state) {
-      state.editingRecipe = false
-    },
     changeCurrentRecipe (state, recipeIndex) {
       state.currentRecipeIndex = recipeIndex
     },
     changesDetected (state, status) {
       state.changesDetected = status
+    },
+    clearRecipeChanges (state) {
+      state.changedRecipe = {}
     },
     deleteRecipe (state, deletedRecipe) {
       state.cookbook = state.cookbook.filter(recipe => {
@@ -44,11 +45,17 @@ export default new Vuex.Store({
         state.currentRecipeIndex = 0
       }
     },
-    editRecipe (state) {
-      state.editingRecipe = true
+    editingStatus (state, status) {
+      state.editingRecipe = status
     },
     getCookbook (state, recipes) {
       state.cookbook = recipes
+    },
+    updateCookbook (state) {
+      Vue.set(state.cookbook, state.currentRecipeIndex, state.changedRecipe)
+    },
+    updateContent (state, values) {
+      state.changedRecipe = Object.assign({}, state.changedRecipe, values)
     }
   },
   actions: {
@@ -74,9 +81,6 @@ export default new Vuex.Store({
           // context.dispatch('getCookbook')
         )
         .catch(err => console.error(err))
-    },
-    endEditing (context) {
-      context.commit('endEditing')
     },
     changeCurrentRecipe (context, recipeIndex) {
       context.commit('changeCurrentRecipe', recipeIndex)
@@ -104,8 +108,13 @@ export default new Vuex.Store({
           .catch(err => console.error(err))
       }
     },
-    editRecipe (context) {
-      context.commit('editRecipe')
+    startEditing (context, editingRecipe) {
+      context.commit('editingStatus', true)
+      context.commit('updateContent', editingRecipe)
+    },
+    endEditing (context) {
+      context.commit('editingStatus', false)
+      context.commit('clearRecipeChanges')
     },
     getCookbook (context) {
       window.fetch(dbURL)
@@ -113,17 +122,17 @@ export default new Vuex.Store({
         .then(data => context.commit('getCookbook', data))
         .catch(err => console.error(err))
     },
-    saveRecipe (context, updatedRecipe) {
-      console.log(updatedRecipe)
+    saveRecipe (context) {
       window.fetch(dbURL, {
         method: 'put',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedRecipe)
+        body: JSON.stringify(this.state.changedRecipe)
       })
         .then(res => {
           if (res.ok) return res.json()
         })
-        .then(context.commit('endEditing'))
+        .then(context.commit('updateCookbook'))
+        .then(context.commit('editingStatus', false))
         .then(context.commit('changesDetected', false))
         .catch(err => console.error(err))
     }

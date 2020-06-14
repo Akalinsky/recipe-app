@@ -11,7 +11,7 @@
       </div>
 
       <div class="recipe-actions">
-        <div @click="editRecipe()" class="edit-recipe recipe-action">Edit Recipe</div>
+        <div @click="startEditing(getCurrentRecipe)" class="edit-recipe recipe-action">Edit Recipe</div>
         <div @click="deleteRecipe(getCurrentRecipe)" class="delete-recipe recipe-action">Delete Recipe</div>
       </div>
 
@@ -48,7 +48,7 @@ export default {
   methods: {
     ...mapActions({
       deleteRecipe: 'deleteRecipe',
-      editRecipe: 'editRecipe'
+      startEditing: 'startEditing'
     })
   }
 }

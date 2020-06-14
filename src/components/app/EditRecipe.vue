@@ -2,15 +2,15 @@
   <div v-if="(getCurrentRecipe && editingRecipe)" class="recipe-editor">
     <h1>Edit Recipe</h1>
     <label for="name">Name</label>
-    <input @change="formChanged($event)" type="text" name="name" :value="[getCurrentRecipe.name ? getCurrentRecipe.name : '']">
+    <input type="text" name="name" v-model="name">
 
     <label for="description">Description</label>
-    <input @change="formChanged($event)" type="text" name="description" :value="[getCurrentRecipe.description ? getCurrentRecipe.description : '']">
+    <input type="text" name="description" v-model="description">
 
-    <input-tag v-model="getCurrentRecipe.tags"></input-tag>
+    <input-tag v-model="tags"></input-tag>
 
-    <div @click="saveRecipe(getCurrentRecipe)" class="save-recipe">Save</div>
-    <div @click="endEditing()" class="cancel-edit">Cancel</div>
+    <div @click="saveRecipe" class="save-recipe">Save</div>
+    <div @click="endEditing" class="cancel-edit">Cancel</div>
   </div>
 </template>
 
@@ -28,17 +28,54 @@ export default {
     }),
     ...mapGetters({
       getCurrentRecipe: 'getCurrentRecipe'
-    })
+    }),
+    name: {
+      set (name) {
+        this.changesDetected(true)
+        this.$store.commit('updateContent', {
+          _id: this.getCurrentRecipe._id,
+          name: name
+        })
+      },
+      get () {
+        return this.getCurrentRecipe.name
+      }
+
+    },
+    description: {
+      set (description) {
+        this.changesDetected(true)
+        this.$store.commit('updateContent', {
+          _id: this.getCurrentRecipe._id,
+          description: description
+        })
+      },
+      get () {
+        return this.getCurrentRecipe.description
+      }
+    },
+    tags: {
+      set (tags) {
+        this.changesDetected(true)
+        this.$store.commit('updateContent', {
+          _id: this.getCurrentRecipe._id,
+          tags: tags
+        })
+      },
+      get () {
+        return this.getCurrentRecipe.tags
+      }
+    }
   },
   methods: {
     ...mapActions({
       saveRecipe: 'saveRecipe',
       endEditing: 'endEditing',
-      changesDetected: 'changesDetected'
+      changesDetected: 'changesDetected',
+      changedRecipe: 'changedRecipe'
     }),
     formChanged (event) {
       this.changesDetected(true)
-      this.getCurrentRecipe[event.target.name] = event.target.value
     }
   }
 }
