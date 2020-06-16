@@ -25,10 +25,11 @@
     </div>
 
     <div class="recipe-ingredients recipe-list">
-
+        <textarea v-model="ingredients"></textarea>
     </div>
 
     <div class="recipe-steps recipe-list">
+      <textarea v-model="directions"></textarea>
     </div>
 
   </div>
@@ -92,6 +93,30 @@ export default {
       },
       get () {
         return this.getCurrentRecipe.tags
+      }
+    },
+    ingredients: {
+      set (ingredients) {
+        this.updateDetected(true)
+        this.$store.commit('updateContent', {
+          _id: this.getCurrentRecipe._id,
+          ingredients: ingredients
+        })
+      },
+      get () {
+        return this.getCurrentRecipe.ingredients
+      }
+    },
+    directions: {
+      set (directions) {
+        this.updateDetected(true)
+        this.$store.commit('updateContent', {
+          _id: this.getCurrentRecipe._id,
+          directions: directions
+        })
+      },
+      get () {
+        return this.getCurrentRecipe.directions
       }
     }
   }

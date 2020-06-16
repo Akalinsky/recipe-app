@@ -20,8 +20,8 @@ export default new Vuex.Store({
         name: '',
         tags: [],
         description: '',
-        directions: [],
-        ingredients: {}
+        directions: '',
+        ingredients: ''
       })
     },
     changeCurrentRecipe (state, recipeIndex) {
@@ -69,8 +69,8 @@ export default new Vuex.Store({
           name: '',
           tags: [],
           description: '',
-          directions: [],
-          ingredients: {}
+          directions: '',
+          ingredients: ''
         })
       })
         .then(res => {

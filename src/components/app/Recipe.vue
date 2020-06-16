@@ -18,16 +18,12 @@
     </div>
     <div class="recipe-list">
       <h2>Ingredients</h2>
-      <ul class="recipe-ingredients">
-        <li class="ingredient" v-for="(ingredient, quantity, index) in getCurrentRecipe.ingredients" :key="index">{{ quantity }}: {{ ingredient }}</li>
-      </ul>
+      <div v-md>{{ getCurrentRecipe.ingredients }}</div>
     </div>
 
     <div class="recipe-list">
       <h2>Directions</h2>
-      <ul class="recipe-directions">
-        <li class="step" v-for="(step, index) in getCurrentRecipe.directions" :key="index">{{step}}</li>
-      </ul>
+      <div v-md>{{getCurrentRecipe.directions}}</div>
     </div>
 
   </div>
