@@ -43,7 +43,6 @@ export default {
           this.changeCurrentRecipe(index)
         }
       } else {
-        console.log('Fired')
         this.endEditing()
         this.changeCurrentRecipe(index)
       }
@@ -64,9 +63,6 @@ export default {
     display: flex;
     flex-flow: column nowrap;
     background: #ffffff;
-    .add-recipe-button {
-
-    }
     ul.recipes-list {
       list-style: none;
       padding: 0;
@@ -80,19 +76,22 @@ export default {
       display: flex;
       flex-flow: column nowrap;
       background: #ffffff;
-      cursor: pointer;
       li {
         border-bottom: 1px solid #f5f5f5;
         text-align: left;
         width: 100%;
         display: flex;
         flex-flow: column nowrap;
+        cursor: pointer;
         &:hover {
           background: #d6d6d6;
           transition: background .2s;
         }
         &.missing-title {
           background: #f4c430;
+          &:hover {
+            background: darken(#f4c430, 10%);
+          }
         }
         &.selected {
           background: #56f1ab;

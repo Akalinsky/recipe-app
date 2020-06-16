@@ -11,19 +11,19 @@
       </div>
 
       <div class="recipe-actions">
-        <div @click="startEditing(getCurrentRecipe)" class="edit-recipe recipe-action">Edit Recipe</div>
-        <div @click="deleteRecipe(getCurrentRecipe)" class="delete-recipe recipe-action">Delete Recipe</div>
+        <div @click="startEditing(getCurrentRecipe)" class="edit-recipe-action recipe-action">Edit Recipe</div>
+        <div @click="deleteRecipe(getCurrentRecipe)" class="delete-recipe-action recipe-action">Delete Recipe</div>
       </div>
 
     </div>
     <div class="recipe-list">
-      <h2>Ingredients</h2>
-      <div v-md>{{ getCurrentRecipe.ingredients }}</div>
+      <h2 v-if="getCurrentRecipe.ingredients">Ingredients</h2>
+      <VueShowdown :markdown="getCurrentRecipe.ingredients" />
     </div>
 
     <div class="recipe-list">
-      <h2>Directions</h2>
-      <div v-md>{{getCurrentRecipe.directions}}</div>
+      <h2 v-if="getCurrentRecipe.directions">Directions</h2>
+      <VueShowdown :markdown="getCurrentRecipe.directions" />
     </div>
 
   </div>
@@ -31,8 +31,12 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
+import { VueShowdown } from 'vue-showdown'
 
 export default {
+  components: {
+    VueShowdown
+  },
   computed: {
     ...mapState({
       editingRecipe: 'editingRecipe'
@@ -52,7 +56,7 @@ export default {
 
 <style lang="scss">
 .recipe-single {
-  background: #f5f5f5;
+  background: #dfdfdf;
   overflow-y: scroll;
   scrollbar-width: thin;
   min-height: 0;
@@ -98,14 +102,14 @@ export default {
         border-radius: 5px;
         padding: 5px;
         cursor: pointer;
-        &.edit-recipe {
+        &.edit-recipe-action {
           background: #1991eb;
           &:hover {
             background: darken(#1991eb, 10%);
             transition: background .3s;
           }
         }
-        &.delete-recipe {
+        &.delete-recipe-action {
           background: red;
           &:hover {
             background: darken(red, 10%);
