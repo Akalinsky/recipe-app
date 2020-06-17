@@ -57,20 +57,20 @@ export default {
     InputTag
   },
   methods: {
-    ...mapActions({
-      changedRecipe: 'changedRecipe',
-      saveRecipe: 'saveRecipe',
-      endEditing: 'endEditing',
-      updateDetected: 'updateDetected'
-    })
+    ...mapActions([
+      'changedRecipe',
+      'saveRecipe',
+      'endEditing',
+      'updateDetected'
+    ])
   },
   computed: {
-    ...mapState({
-      editingRecipe: 'editingRecipe'
-    }),
-    ...mapGetters({
-      getCurrentRecipe: 'getCurrentRecipe'
-    }),
+    ...mapState([
+      'editingRecipe'
+    ]),
+    ...mapGetters([
+      'getCurrentRecipe'
+    ]),
     name: {
       set (name) {
         this.updateDetected(true)

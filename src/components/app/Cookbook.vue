@@ -1,9 +1,10 @@
 <template>
   <div class="sidebar-container">
+    <input :value="searchCookbook" @input="filterCookbook" placeholder="Filter Cookbook..." type="text">
     <AddRecipe />
     <ul class="recipes-list">
       <li v-on:click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == '')}" v-for="(recipe, index) in cookbook" :key="index">
-        <h3>{{ (recipe.name) ? recipe.name : "New Recipe" }}</h3>
+        <h3>{{ recipe.name }}</h3>
         <div class="tags-list">
           <span class="recipe-tag" v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
         </div>
@@ -13,7 +14,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import AddRecipe from '@/components/app/AddRecipe'
 
 export default {
@@ -21,20 +22,25 @@ export default {
     AddRecipe
   },
   computed: {
-    ...mapState({
-      cookbook: 'cookbook',
-      currentRecipeIndex: 'currentRecipeIndex',
-      editingRecipe: 'editingRecipe',
-      changesDetected: 'changesDetected'
+    ...mapState([
+      'searchCookbook',
+      'filteredCookbook',
+      'currentRecipeIndex',
+      'editingRecipe',
+      'changesDetected'
+    ]),
+    ...mapGetters({
+      cookbook: 'getCurrentCookbook'
     })
   },
   methods: {
-    ...mapActions({
-      changeCurrentRecipe: 'changeCurrentRecipe',
-      getCookbook: 'getCookbook',
-      endEditing: 'endEditing',
-      updateDetected: 'updateDetected'
-    }),
+    ...mapActions([
+      'changeCurrentRecipe',
+      'fetchCookbook',
+      'endEditing',
+      'updateDetected',
+      'filterCookbook'
+    ]),
     changeRecipe (index) {
       if (this.editingRecipe === true && this.changesDetected === true) {
         if (window.confirm('Changing recipes will cause you to lose changes to previous edits. Continue?')) {
@@ -48,8 +54,8 @@ export default {
       }
     }
   },
-  created () {
-    this.getCookbook()
+  mounted () {
+    this.fetchCookbook()
   }
 }
 </script>
@@ -63,6 +69,11 @@ export default {
     display: flex;
     flex-flow: column nowrap;
     background: #ffffff;
+    input {
+      border: none;
+      font-size: 20px;
+      padding: 7px;
+    }
     ul.recipes-list {
       list-style: none;
       padding: 0;

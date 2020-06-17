@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { v4 as uuidv4 } from 'uuid'
+import { filterCookbook } from './helpers/search.js'
+
 const dbURL = 'http://localhost:3000/'
 
 Vue.use(Vuex)
@@ -8,6 +10,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cookbook: [],
+    filteredCookbook: [],
+    searchCookbook: '',
     currentRecipeIndex: 0,
     editingRecipe: false,
     changesDetected: false,
@@ -17,7 +21,7 @@ export default new Vuex.Store({
     addRecipe (state, uuid) {
       state.cookbook.unshift({
         _id: uuid,
-        name: '',
+        name: 'New Recipe',
         tags: [],
         description: '',
         directions: '',
@@ -45,8 +49,13 @@ export default new Vuex.Store({
     editingStatus (state, status) {
       state.editingRecipe = status
     },
-    getCookbook (state, recipes) {
+    setCookbook (state, recipes) {
       state.cookbook = recipes
+    },
+    filterCookbook (state, search) {
+      state.searchCookbook = search
+      state.filteredCookbook = filterCookbook(state.cookbook, search)
+      state.currentRecipeIndex = 0
     },
     updateChanges (state, status) {
       state.changesDetected = status
@@ -66,7 +75,7 @@ export default new Vuex.Store({
         headers: { 'Content-Type': 'application/json; charset=UTF-8' },
         body: JSON.stringify({
           _id: uuid,
-          name: '',
+          name: 'New Recipe',
           tags: [],
           description: '',
           directions: '',
@@ -114,10 +123,13 @@ export default new Vuex.Store({
       context.commit('editingStatus', false)
       context.commit('clearRecipeChanges')
     },
-    getCookbook (context) {
+    filterCookbook (context, search) {
+      context.commit('filterCookbook', search.target.value)
+    },
+    fetchCookbook (context) {
       window.fetch(dbURL)
         .then(response => response.json())
-        .then(data => context.commit('getCookbook', data))
+        .then(data => context.commit('setCookbook', data))
         .catch(err => console.error(err))
     },
     saveRecipe (context) {
@@ -138,6 +150,13 @@ export default new Vuex.Store({
   getters: {
     getCurrentRecipe: state => {
       return state.cookbook[state.currentRecipeIndex]
+    },
+    getCurrentCookbook: state => {
+      if (state.searchCookbook !== '') {
+        return state.filteredCookbook
+      } else {
+        return state.cookbook
+      }
     }
   },
   modules: {

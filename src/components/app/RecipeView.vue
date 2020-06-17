@@ -38,18 +38,18 @@ export default {
     VueShowdown
   },
   computed: {
-    ...mapState({
-      editingRecipe: 'editingRecipe'
-    }),
-    ...mapGetters({
-      getCurrentRecipe: 'getCurrentRecipe'
-    })
+    ...mapState([
+      'editingRecipe'
+    ]),
+    ...mapGetters([
+      'getCurrentRecipe'
+    ])
   },
   methods: {
-    ...mapActions({
-      deleteRecipe: 'deleteRecipe',
-      startEditing: 'startEditing'
-    })
+    ...mapActions([
+      'deleteRecipe',
+      'startEditing'
+    ])
   }
 }
 </script>
