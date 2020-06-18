@@ -17,6 +17,16 @@ app.get('/', async (req, res) => {
   }
 })
 
+app.get('/recipe/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    const recipes = await loadRecipesCollection()
+    res.send(await recipes.findOne({ _id: id }))
+  } catch (err) {
+    console.log(err)
+  }
+})
+
 app.delete('/', async (req, res) => {
   try {
     const recipes = await loadRecipesCollection()

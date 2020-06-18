@@ -11,6 +11,7 @@
       </div>
 
       <div class="recipe-actions">
+        <router-link class="share-recipe-action recipe-action" :to="'/recipe/'+getCurrentRecipe._id">Share Recipe</router-link>
         <div @click="startEditing(getCurrentRecipe)" class="edit-recipe-action recipe-action">Edit Recipe</div>
         <div @click="deleteRecipe(getCurrentRecipe)" class="delete-recipe-action recipe-action">Delete Recipe</div>
       </div>
@@ -49,7 +50,14 @@ export default {
     ...mapActions([
       'deleteRecipe',
       'startEditing'
-    ])
+    ]),
+    copyShareLink () {
+      const shareLink = document.querySelector('.share-recipe-action')
+      console.log(shareLink.dataset.id)
+      shareLink.setAttribute('type', 'text')
+      shareLink.select()
+      document.execCommand('copy')
+    }
   }
 }
 </script>
@@ -97,11 +105,19 @@ export default {
       flex-flow: row wrap;
       .recipe-action {
         display: inline-block;
-        margin: 0 15px 0 0;
+        margin: 0 5px 0 0;
         color: #ffffff;
         border-radius: 5px;
         padding: 5px;
         cursor: pointer;
+        &.share-recipe-action {
+          background: #000000;
+          text-decoration: none;
+          &:hover {
+            background: lighten(#000000, 30%);
+            transition: background .3s;
+          }
+        }
         &.edit-recipe-action {
           background: #1991eb;
           &:hover {

@@ -15,7 +15,8 @@ export default new Vuex.Store({
     currentRecipeIndex: 0,
     editingRecipe: false,
     changesDetected: false,
-    changedRecipe: {}
+    changedRecipe: {},
+    singleRecipe: null
   },
   mutations: {
     addRecipe (state, uuid) {
@@ -56,6 +57,9 @@ export default new Vuex.Store({
       state.searchCookbook = search
       state.filteredCookbook = filterCookbook(state.cookbook, search)
       state.currentRecipeIndex = 0
+    },
+    setSingleRecipe (state, recipe) {
+      state.singleRecipe = recipe
     },
     updateChanges (state, status) {
       state.changesDetected = status
@@ -130,6 +134,13 @@ export default new Vuex.Store({
       window.fetch(dbURL)
         .then(response => response.json())
         .then(data => context.commit('setCookbook', data))
+        .catch(err => console.error(err))
+    },
+    fetchSingleRecipe (context, id) {
+      const singleRecipeURL = dbURL + 'recipe/' + id
+      window.fetch(singleRecipeURL)
+        .then(response => response.json())
+        .then(data => context.commit('setSingleRecipe', data))
         .catch(err => console.error(err))
     },
     saveRecipe (context) {
