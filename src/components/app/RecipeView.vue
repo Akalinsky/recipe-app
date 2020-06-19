@@ -11,7 +11,7 @@
       </div>
 
       <div class="recipe-actions">
-        <router-link class="share-recipe-action recipe-action" :to="'/recipe/'+getCurrentRecipe._id">Share Recipe</router-link>
+        <router-link class="share-recipe-action recipe-action" :to="'/recipe/'+getCurrentRecipe._id + '_' + urlEncodeShare(getCurrentRecipe.name)">Share Recipe</router-link>
         <div @click="startEditing(getCurrentRecipe)" class="edit-recipe-action recipe-action">Edit Recipe</div>
         <div @click="deleteRecipe(getCurrentRecipe)" class="delete-recipe-action recipe-action">Delete Recipe</div>
       </div>
@@ -57,6 +57,9 @@ export default {
       shareLink.setAttribute('type', 'text')
       shareLink.select()
       document.execCommand('copy')
+    },
+    urlEncodeShare (string) {
+      return encodeURI(string.replace(/\s+/g, '-').toLowerCase())
     }
   }
 }

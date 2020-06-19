@@ -44,6 +44,7 @@ export default {
     ])
   },
   created () {
+    console.log(this.$route.params)
     this.fetchSingleRecipe(this.$route.params.id)
   }
 }

@@ -18,19 +18,10 @@ const routes = [
     component: Home
   },
   {
-    path: '/recipe/:id',
+    // ID takes the form of any letters and numbers, separated by hyphen and ending with an underscore.
+    path: '/recipe/:id([A-Za-z0-9-]+)_:name',
     component: SingleRecipe
   }
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: function () {
-  //     return import(/* webpackChunkName: "about" */ '../views/About.vue')
-  //   }
-  // }
 ]
 
 const router = new VueRouter({
