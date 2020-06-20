@@ -71,6 +71,7 @@ export default {
     background: #dfdfdf;
     input {
       border: none;
+      border-right: 1px solid #f5f5f5;
       font-size: 20px;
       padding: 7px;
     }
