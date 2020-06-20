@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe-view">
+  <div class="cookbook-view">
     <Cookbook />
     <RecipeView />
     <EditRecipe />
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .recipe-view {
+  .cookbook-view {
     display: flex;
     height: 100%;
   }

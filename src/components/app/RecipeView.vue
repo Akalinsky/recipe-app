@@ -1,5 +1,5 @@
 <template>
-  <div v-if="(getCurrentRecipe && !editingRecipe)" class="recipe-single">
+  <div v-if="(getCurrentRecipe && !editingRecipe)" class="recipe-view">
     <div class="recipe-header">
 
       <h1 class="recipe-title">{{ getCurrentRecipe.name  }}</h1>
@@ -53,7 +53,6 @@ export default {
     ]),
     copyShareLink () {
       const shareLink = document.querySelector('.share-recipe-action')
-      console.log(shareLink.dataset.id)
       shareLink.setAttribute('type', 'text')
       shareLink.select()
       document.execCommand('copy')
@@ -66,8 +65,8 @@ export default {
 </script>
 
 <style lang="scss">
-.recipe-single {
-  background: #dfdfdf;
+.recipe-view {
+  background: #ffffff;
   overflow-y: scroll;
   scrollbar-width: thin;
   min-height: 0;

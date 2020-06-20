@@ -3,7 +3,7 @@
     <input :value="searchCookbook" @input="filterCookbook" placeholder="Filter Cookbook..." type="text">
     <AddRecipe />
     <ul class="recipes-list">
-      <li v-on:click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == '')}" v-for="(recipe, index) in cookbook" :key="index">
+      <li v-on:click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == 'New Recipe')}" v-for="(recipe, index) in cookbook" :key="index">
         <h3>{{ recipe.name }}</h3>
         <div class="tags-list">
           <span class="recipe-tag" v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
@@ -68,7 +68,7 @@ export default {
     align-self: stretch;
     display: flex;
     flex-flow: column nowrap;
-    background: #ffffff;
+    background: #dfdfdf;
     input {
       border: none;
       font-size: 20px;
@@ -86,7 +86,7 @@ export default {
       align-self: stretch;
       display: flex;
       flex-flow: column nowrap;
-      background: #ffffff;
+      background: #dfdfdf;
       li {
         border-bottom: 1px solid #f5f5f5;
         text-align: left;

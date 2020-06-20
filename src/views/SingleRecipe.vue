@@ -52,7 +52,7 @@ export default {
 
 <style lang="scss">
 .recipe-single {
-  background: #dfdfdf;
+  background: #ffffff;
   overflow-y: scroll;
   scrollbar-width: thin;
   min-height: 0;

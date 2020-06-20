@@ -30,7 +30,7 @@ app.get('/recipe/:id', async (req, res) => {
 app.delete('/', async (req, res) => {
   try {
     const recipes = await loadRecipesCollection()
-    await recipes.deleteOne({ _id: req.body._id })
+    res.send(await recipes.deleteOne({ _id: req.body._id }))
   } catch (err) {
     console.error(err)
   }
@@ -39,7 +39,7 @@ app.delete('/', async (req, res) => {
 app.post('/', async (req, res) => {
   try {
     const recipes = await loadRecipesCollection()
-    await recipes.insertOne(req.body)
+    res.send(await recipes.insertOne(req.body))
   } catch (err) {
     console.error(err)
   }
@@ -48,7 +48,7 @@ app.post('/', async (req, res) => {
 app.put('/', async (req, res) => {
   try {
     const recipes = await loadRecipesCollection()
-    await recipes.findOneAndUpdate(
+    res.send(await recipes.findOneAndUpdate(
       { _id: req.body._id },
       {
         $set: {
@@ -62,7 +62,7 @@ app.put('/', async (req, res) => {
       {
         upsert: true
       }
-    )
+    ))
   } catch (err) {
     console.error(err)
   }

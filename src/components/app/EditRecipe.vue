@@ -139,12 +139,13 @@ export default {
 <style lang="scss">
   .edit-recipe {
     display: flex;
-    background: #f5f5f5;
+    background: #ffffff;
     overflow-y: scroll;
     scrollbar-width: thin;
     min-height: 0;
     height: 100%;
     flex-basis: 80%;
+    padding: 2%;
     align-self: stretch;
     flex-flow: column nowrap;
     .edit-header {
@@ -153,8 +154,8 @@ export default {
       padding: 0;
       h1 {
         font-size: 42px;
-        margin: 10px;
-        padding: 0;
+        margin: 0px;
+        padding: 0 0 20px 0;
       }
     }
     .recipe-editor {

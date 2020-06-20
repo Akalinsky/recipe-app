@@ -1,6 +1,6 @@
 <template>
   <div class="header-left">
-    <h2 class="page-title">My Recipe App</h2>
+    <h2 class="page-title"><router-link :to="'/'">My Recipe App</router-link></h2>
   </div>
 </template>
 
@@ -16,6 +16,10 @@ export default {
     .page-title {
       color: #fff;
       margin: 0 0 0 1rem;
+      a {
+        color: #fff;
+        text-decoration: none;
+      }
     }
   }
 </style>
