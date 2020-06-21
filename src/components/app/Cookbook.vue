@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-container">
     <input :value="searchCookbook" @input="filterCookbook" placeholder="Filter Cookbook..." type="text">
-    <AddRecipe />
+    <AddRecipe v-if="userLoggedIn" />
     <ul class="recipes-list">
       <li v-on:click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == 'New Recipe')}" v-for="(recipe, index) in cookbook" :key="index">
         <h3>{{ recipe.name }}</h3>
@@ -30,7 +30,9 @@ export default {
       'changesDetected'
     ]),
     ...mapGetters({
-      cookbook: 'getCurrentCookbook'
+      cookbook: 'getCurrentCookbook',
+      userLoggedIn: 'userLoggedIn'
+
     })
   },
   methods: {
@@ -54,7 +56,7 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     this.fetchCookbook()
   }
 }
@@ -71,6 +73,7 @@ export default {
     background: #dfdfdf;
     input {
       border: none;
+      border-right: 1px solid #f5f5f5;
       font-size: 20px;
       padding: 7px;
     }
