@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "start": "concurrently \"npm run serve\" \"nodemon server.js\"",
+    "start": "concurrently \"npm run serve\" \"nodemon server/server.js\"",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.8",
     "uuid": "^8.1.0",
     "vue": "^2.6.11",

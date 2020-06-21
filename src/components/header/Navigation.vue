@@ -1,14 +1,34 @@
 <template>
   <nav>
     <ul>
-      <li><div>Login</div></li>
+      <li><router-link v-if="!userLoggedIn" :to="'register'">Register</router-link></li>
+      <li><router-link v-if="!userLoggedIn" :to="'login'">Login</router-link></li>
+      <li @click="logout"><router-link v-if="userLoggedIn" :to="'/'">Logout</router-link></li>
     </ul>
   </nav>
 </template>
 
 <script>
-export default {
+import { mapGetters, mapMutations } from 'vuex'
+import { clearStorage } from '../../store/helpers/localStorage.js'
 
+export default {
+  computed: {
+    ...mapGetters([
+      'userLoggedIn'
+    ])
+  },
+  methods: {
+    ...mapMutations([
+      'setToken',
+      'setUser'
+    ]),
+    logout () {
+      this.setToken(null)
+      this.setUser(null)
+      clearStorage(['token', 'username'])
+    }
+  }
 }
 </script>
 

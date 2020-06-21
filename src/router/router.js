@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Register from '../views/Register.vue'
+import Login from '../views/Login.vue'
 import NotFound from '../views/NotFound.vue'
 import SingleRecipe from '../views/SingleRecipe.vue'
 
@@ -21,6 +23,16 @@ const routes = [
     // ID takes the form of any letters and numbers, separated by hyphen and ending with an underscore.
     path: '/recipe/:id([A-Za-z0-9-]+)_:name',
     component: SingleRecipe
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
   }
 ]
 

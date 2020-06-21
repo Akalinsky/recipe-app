@@ -40,11 +40,12 @@ export default {
   },
   methods: {
     ...mapActions([
-      'fetchSingleRecipe'
+      'fetchSingleRecipe',
+      'userFromStorage'
     ])
   },
   created () {
-    console.log(this.$route.params)
+    this.userFromStorage()
     this.fetchSingleRecipe(this.$route.params.id)
   }
 }
