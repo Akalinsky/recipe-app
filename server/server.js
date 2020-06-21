@@ -9,7 +9,6 @@ app.use(cors())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-// Authorize this
 app.get('/', async (req, res) => {
   try {
     const recipes = await loadRecipesCollection()
@@ -32,7 +31,7 @@ app.get('/recipe/:id', async (req, res) => {
 
 app.delete('/', async (req, res) => {
   const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
-  if (typeof validReq !== 'undefined') {
+  if (validReq) {
     try {
       const recipes = await loadRecipesCollection()
       res.send(await recipes.deleteOne({ _id: req.body._id }))
@@ -46,7 +45,7 @@ app.delete('/', async (req, res) => {
 
 app.post('/', async (req, res) => {
   const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
-  if (typeof validReq !== 'undefined') {
+  if (validReq) {
     try {
       const recipes = await loadRecipesCollection()
       res.send(await recipes.insertOne(req.body))
@@ -60,7 +59,7 @@ app.post('/', async (req, res) => {
 
 app.put('/', async (req, res) => {
   const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
-  if (typeof validReq !== 'undefined') {
+  if (validReq) {
     try {
       const recipes = await loadRecipesCollection()
       res.send(await recipes.findOneAndUpdate(

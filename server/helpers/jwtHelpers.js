@@ -12,7 +12,11 @@ module.exports = {
       if (err) {
         console.log(err)
       }
-      return decoded
+      if (typeof decoded !== 'undefined') {
+        return true
+      } else {
+        return false
+      }
     })
   }
 }

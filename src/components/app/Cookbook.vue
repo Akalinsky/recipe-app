@@ -41,8 +41,7 @@ export default {
       'fetchCookbook',
       'endEditing',
       'updateDetected',
-      'filterCookbook',
-      'userFromStorage'
+      'filterCookbook'
     ]),
     changeRecipe (index) {
       if (this.editingRecipe === true && this.changesDetected === true) {
@@ -58,7 +57,6 @@ export default {
     }
   },
   created () {
-    this.userFromStorage()
     this.fetchCookbook()
   }
 }

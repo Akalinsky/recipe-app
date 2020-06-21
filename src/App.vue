@@ -7,10 +7,19 @@
 
 <script>
 import Header from '@/components/header/Header'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
     Header
+  },
+  methods: {
+    ...mapActions([
+      'userFromStorage'
+    ])
+  },
+  created () {
+    this.userFromStorage()
   }
 }
 </script>
