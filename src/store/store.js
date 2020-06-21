@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { v4 as uuidv4 } from 'uuid'
 import { filterCookbook } from './helpers/search.js'
+import { setStorage, readStorage } from './helpers/localStorage.js'
+import router from '../router/router.js'
 
 const dbURL = 'http://localhost:3000/'
 
@@ -16,7 +18,9 @@ export default new Vuex.Store({
     editingRecipe: false,
     changesDetected: false,
     changedRecipe: {},
-    singleRecipe: null
+    singleRecipe: null,
+    user: null,
+    token: null
   },
   mutations: {
     addRecipe (state, uuid) {
@@ -61,6 +65,12 @@ export default new Vuex.Store({
     setSingleRecipe (state, recipe) {
       state.singleRecipe = recipe
     },
+    setToken (state, token) {
+      state.token = token
+    },
+    setUser (state, username) {
+      state.user = username
+    },
     updateChanges (state, status) {
       state.changesDetected = status
     },
@@ -76,7 +86,10 @@ export default new Vuex.Store({
       const uuid = uuidv4()
       window.fetch(dbURL, {
         method: 'post',
-        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          Authorization: `Bearer ${this.state.token}`
+        },
         body: JSON.stringify({
           _id: uuid,
           name: 'New Recipe',
@@ -87,10 +100,13 @@ export default new Vuex.Store({
         })
       })
         .then(res => {
-          if (res.ok) console.log(res.json)
+          if (res.ok) {
+            context.commit('addRecipe', uuid)
+            context.commit('changeCurrentRecipe', 0)
+          } else {
+            console.log(`Error ${res.status} ${res.statusText}`)
+          }
         })
-        .then(context.commit('addRecipe', uuid))
-        .then(context.commit('changeCurrentRecipe', 0))
         .catch(err => console.error(err))
     },
     changeCurrentRecipe (context, recipeIndex) {
@@ -103,19 +119,25 @@ export default new Vuex.Store({
       if (window.confirm(`Do you really want to delete ${deletedRecipe.name}`)) {
         window.fetch(dbURL, {
           method: 'delete',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            Authorization: `Bearer ${this.state.token}`
+          },
           body: JSON.stringify({
             _id: deletedRecipe._id
           })
         })
           .then(res => {
-            if (res.ok) return res.json()
+            if (res.ok) {
+              // Should I be committing a mutation to the cookbook here?
+              // Or fetching the cookbook again from the DB?
+              // Works on Second click - super odd. Undecided - **REVISIT**
+              // .then(context.dispatch('getCookbook'))
+              context.commit('deleteRecipe', deletedRecipe)
+            } else {
+              console.log(`Error ${res.status} ${res.statusText}`)
+            }
           })
-          // Should I be committing a mutation to the cookbook here?
-          // Or fetching the cookbook again from the DB?
-          // Works on Second click - super odd. Undecided - **REVISIT**
-          // .then(context.dispatch('getCookbook'))
-          .then(context.commit('deleteRecipe', deletedRecipe))
           .catch(err => console.error(err))
       }
     },
@@ -143,19 +165,80 @@ export default new Vuex.Store({
         .then(data => context.commit('setSingleRecipe', data))
         .catch(err => console.error(err))
     },
+    loginUser (context, credentials) {
+      window.fetch(dbURL + 'login', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify({
+          username: credentials.username,
+          password: credentials.password
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            console.log(data.error)
+          } else {
+            context.commit('setUser', data.username)
+            context.commit('setToken', data.token)
+            setStorage({
+              token: data.token,
+              username: data.username
+            })
+            router.push('/')
+          }
+        })
+    },
+    registerUser (context, credentials) {
+      window.fetch(dbURL + 'register', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify({
+          username: credentials.username,
+          password: credentials.password
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            console.log(data.error)
+          } else {
+            context.commit('setUser', data.username)
+            context.commit('setToken', data.token)
+            setStorage({
+              token: data.token,
+              username: data.username
+            })
+            router.push('/')
+          }
+        })
+    },
     saveRecipe (context) {
       window.fetch(dbURL, {
         method: 'put',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          Authorization: `Bearer ${this.state.token}`
+        },
         body: JSON.stringify(this.state.changedRecipe)
       })
         .then(res => {
-          if (res.ok) return res.json()
+          if (res.ok) {
+            context.commit('updateCookbook')
+            context.commit('editingStatus', false)
+            context.commit('updateChanges', false)
+          } else {
+            console.log(`Error ${res.status} ${res.statusText}`)
+          }
         })
-        .then(context.commit('updateCookbook'))
-        .then(context.commit('editingStatus', false))
-        .then(context.commit('updateChanges', false))
         .catch(err => console.error(err))
+    },
+    userFromStorage (context) {
+      const user = readStorage()
+      if (user) {
+        context.commit('setUser', user.username)
+        context.commit('setToken', user.token)
+      }
     }
   },
   getters: {
@@ -167,6 +250,13 @@ export default new Vuex.Store({
         return state.filteredCookbook
       } else {
         return state.cookbook
+      }
+    },
+    userLoggedIn: state => {
+      if (state.token !== null) {
+        return true
+      } else {
+        return false
       }
     }
   },
