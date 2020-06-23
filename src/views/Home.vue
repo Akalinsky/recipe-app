@@ -24,6 +24,9 @@ export default {
 <style lang="scss">
   .cookbook-view {
     display: flex;
-    height: 100%;
+    height: 100vh;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
   }
 </style>

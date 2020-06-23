@@ -26,7 +26,6 @@ export default {
 
 <style lang="scss">
 html {
-  height: 100%;
   body {
     margin: 0;
     height: 100%;
@@ -37,8 +36,9 @@ html {
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
       color: #2c3e50;
-      height: 100%;
-      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
   }
 }

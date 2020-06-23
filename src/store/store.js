@@ -29,8 +29,8 @@ export default new Vuex.Store({
         name: 'New Recipe',
         tags: [],
         description: '',
-        directions: '',
-        ingredients: ''
+        directions: '@start\n@end',
+        ingredients: '@start\n@end'
       })
     },
     changeCurrentRecipe (state, recipeIndex) {
@@ -95,8 +95,8 @@ export default new Vuex.Store({
           name: 'New Recipe',
           tags: [],
           description: '',
-          directions: '',
-          ingredients: ''
+          directions: '@start\n@end',
+          ingredients: '@start\n@end'
         })
       })
         .then(res => {

@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-container">
-    <input :value="searchCookbook" @input="filterCookbook" placeholder="Filter Cookbook..." type="text">
+    <input id="search-recipes" :value="searchCookbook" @input="filterCookbook" placeholder="Filter Cookbook..." type="search">
     <AddRecipe v-if="userLoggedIn" />
     <ul class="recipes-list">
       <li v-on:click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == 'New Recipe')}" v-for="(recipe, index) in cookbook" :key="index">
@@ -69,13 +69,21 @@ export default {
     flex-basis: 20%;
     align-self: stretch;
     display: flex;
+    height: 100vh;
+    min-height: 0;
     flex-flow: column nowrap;
     background: #dfdfdf;
-    input {
+    input#search-recipes {
       border: none;
       border-right: 1px solid #f5f5f5;
       font-size: 20px;
       padding: 7px;
+      &:focus {
+        outline: none;
+      }
+      &::after {
+        // content: 'X';
+      }
     }
     ul.recipes-list {
       list-style: none;
