@@ -3,16 +3,13 @@
     <div class="recipe-header">
 
       <div class="title-container">
-        <div class="title-tags">
-          <h1 class="recipe-title">{{ getCurrentRecipe.name  }}</h1>
 
+          <h1 class="recipe-title">{{ getCurrentRecipe.name  }}</h1>
+            <div class="description">{{ getCurrentRecipe.description }} </div>
           <div class="recipe-tag-container">
-            <span class="recipe-tag" v-for="tag in getCurrentRecipe.tags" :key="tag">{{ tag }}</span>
+            <span @click="searchByTag" class="recipe-tag" v-for="tag in getCurrentRecipe.tags" :key="tag">{{ tag }}</span>
           </div>
 
-        </div>
-
-        <div class="description">{{ getCurrentRecipe.description }} </div>
       </div>
 
       <div class="recipe-actions">
@@ -39,7 +36,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import { VueShowdown } from 'vue-showdown'
 
 export default {
@@ -74,6 +71,9 @@ export default {
       'deleteRecipe',
       'startEditing'
     ]),
+    ...mapMutations([
+      'filterCookbook'
+    ]),
     copyShareLink () {
       const shareLink = document.querySelector('.share-recipe-action')
       shareLink.setAttribute('type', 'text')
@@ -82,6 +82,12 @@ export default {
     },
     urlEncodeShare (string) {
       return encodeURI(string.replace(/\s+/g, '-').toLowerCase())
+    },
+    searchByTag (event) {
+      const term = event.target.textContent
+      const search = document.getElementById('search-recipes')
+      search.value = term
+      this.filterCookbook(search.value)
     }
   }
 }
@@ -110,28 +116,24 @@ export default {
     .title-container {
       display: flex;
       flex-flow: column nowrap;
-      .title-tags {
+      h1.recipe-title {
+        font-size: 42px;
+        margin: 0 50px 0 0;
+        padding: 0 0 10px 0;
+        display: inline-block;
+      }
+      .recipe-tag-container {
         display: flex;
         flex-flow: row wrap;
-        align-items: center;
-        h1.recipe-title {
-          font-size: 42px;
-          margin: 0 50px 0 0;
-          padding: 0 0 10px 0;
-          display: inline-block;
-        }
-        .recipe-tag-container {
-          display: flex;
-          flex-flow: row wrap;
-          justify-content: flex-start;
-          .recipe-tag {
-            font-size: 18px;
-            margin: 5px 5px 5px 0;
-            padding: 7px;
-            background: #42b983;
-            border-radius: 5px;
-            color: #fff;
-          }
+        justify-content: flex-start;
+        .recipe-tag {
+          font-size: 18px;
+          margin: 5px 5px 5px 0;
+          padding: 7px;
+          background: #42b983;
+          border-radius: 5px;
+          color: #fff;
+          cursor: pointer
         }
       }
       .description {
@@ -179,7 +181,7 @@ export default {
   }
   .recipe-content {
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     .recipe-list {
       margin: 10px;
       h3 {

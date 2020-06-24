@@ -242,8 +242,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    getCurrentRecipe: state => {
-      return state.cookbook[state.currentRecipeIndex]
+    getCurrentRecipe: (state, getters) => {
+      const cookbook = getters.getCurrentCookbook
+      return cookbook[state.currentRecipeIndex]
     },
     getCurrentCookbook: state => {
       if (state.searchCookbook !== '') {
