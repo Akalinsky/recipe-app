@@ -143,7 +143,7 @@ export default {
     overflow-y: scroll;
     scrollbar-width: thin;
     min-height: 0;
-    height: 100%;
+    height: calc(100vh - 150px);
     flex-basis: 80%;
     padding: 2%;
     align-self: stretch;

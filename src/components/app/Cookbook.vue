@@ -73,16 +73,22 @@ export default {
     min-height: 0;
     flex-flow: column nowrap;
     background: #dfdfdf;
+    @media screen and (max-width: 767px) {
+      flex-basis: 10%;
+    }
     input#search-recipes {
       border: none;
       border-right: 1px solid #f5f5f5;
       font-size: 20px;
       padding: 7px;
+      @media screen and (max-width: 767px) {
+        font-size: 16px;
+      }
+      @media screen and (max-width: 700px) {
+        font-size: 12px;
+      }
       &:focus {
         outline: none;
-      }
-      &::after {
-        // content: 'X';
       }
     }
     ul.recipes-list {
@@ -93,7 +99,7 @@ export default {
       // Firefox Hack because scrollbars are fucking dumb
       scrollbar-width: thin;
       min-height: 0;
-      height: 100%;
+      height: calc(100% - 150px);
       align-self: stretch;
       display: flex;
       flex-flow: column nowrap;
@@ -120,12 +126,18 @@ export default {
         }
         h3 {
           margin: 20px 10px;
+          @media screen and (max-width: 767px) {
+            font-size: 14px;
+          }
         }
         .tags-list {
           display: flex;
           flex-flow: row wrap;
           justify-content: flex-start;
           margin: 0 0 0 20px;
+          @media screen and (max-width: 767px) {
+            display: none;
+          }
           span.recipe-tag {
             margin: 5px;
             padding: 7px;

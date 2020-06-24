@@ -28,7 +28,7 @@ export default {
 html {
   body {
     margin: 0;
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
     #app {
       font-family: Avenir, Helvetica, Arial, sans-serif;

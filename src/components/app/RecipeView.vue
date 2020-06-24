@@ -7,7 +7,7 @@
           <h1 class="recipe-title">{{ getCurrentRecipe.name  }}</h1>
             <div class="description">{{ getCurrentRecipe.description }} </div>
           <div class="recipe-tag-container">
-            <span @click="searchByTag" class="recipe-tag" v-for="tag in getCurrentRecipe.tags" :key="tag">{{ tag }}</span>
+            <div @click="searchByTag" class="recipe-tag" v-for="tag in getCurrentRecipe.tags" :key="tag">{{ tag }}</div>
           </div>
 
       </div>
@@ -99,7 +99,7 @@ export default {
   overflow-y: scroll;
   scrollbar-width: thin;
   min-height: 0;
-  height: auto;
+  height: calc(100% - 150px);
   flex-basis: 80%;
   align-self: stretch;
   text-align: left;
@@ -107,10 +107,13 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
+  @media screen and (max-width: 767px) {
+    flex-basis: 90%;
+  }
   .recipe-header {
     margin: 10px;
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: row wrap;
     justify-content: space-between;
     align-items: flex-start;
     .title-container {
@@ -118,9 +121,9 @@ export default {
       flex-flow: column nowrap;
       h1.recipe-title {
         font-size: 42px;
-        margin: 0 50px 0 0;
-        padding: 0 0 10px 0;
+        padding: 0;
         display: inline-block;
+        margin: 0px 0 20px 0;
       }
       .recipe-tag-container {
         display: flex;
@@ -143,13 +146,13 @@ export default {
     }
     .recipe-actions {
       display: flex;
-      justify-content: flex-start;
+      justify-content: center;
       flex-flow: row wrap;
       box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
       padding: 20px;
       .recipe-action {
         display: inline-block;
-        margin: 0 5px 0 0;
+        margin: 5px 5px 0 0;
         color: #ffffff;
         border-radius: 5px;
         padding: 5px;
@@ -182,16 +185,19 @@ export default {
   .recipe-content {
     display: flex;
     flex-flow: column nowrap;
+    margin: 0 0 50px 0;
     .recipe-list {
       margin: 10px;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: flex-start;
       h3 {
         margin: 0;
       }
       section {
         display: flex;
-        flex-flow: row nowrap;
+        flex-flow: row wrap;
         justify-content: flex-start;
-
         p {
           display: none;
         }
@@ -199,7 +205,7 @@ export default {
           flex-shrink: 1;
           box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
           padding: 25px 0 25px 25px;
-          margin: 0 2% 0 0;
+          margin: 1% 2% 0 0;
           ul {
             display: flex;
             flex-flow: column wrap;

@@ -25,7 +25,7 @@ header {
   background: #42b983;
   width: 100%;
   padding: 1rem 0;
-
+  max-height: 50px;
 }
 
 </style>
