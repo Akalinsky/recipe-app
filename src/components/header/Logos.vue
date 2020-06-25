@@ -15,7 +15,7 @@ export default {
   .header-left {
     .page-title {
       color: #fff;
-      margin: 0 0 0 1rem;
+      padding: 0 0 0 10px;
       a {
         color: #fff;
         text-decoration: none;

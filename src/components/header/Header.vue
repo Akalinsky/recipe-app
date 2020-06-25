@@ -22,9 +22,9 @@ header {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  align-items: center;
   background: #42b983;
   width: 100%;
-  padding: 1rem 0;
   max-height: 50px;
 }
 

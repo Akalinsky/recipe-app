@@ -72,9 +72,10 @@ export default {
     height: 100vh;
     min-height: 0;
     flex-flow: column nowrap;
-    background: #dfdfdf;
+    overflow: hidden;
+    background: transparent;
     @media screen and (max-width: 767px) {
-      flex-basis: 10%;
+      flex-basis: 45%;
     }
     input#search-recipes {
       border: none;

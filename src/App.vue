@@ -28,7 +28,8 @@ export default {
 html {
   body {
     margin: 0;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
     #app {
       font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -36,7 +37,7 @@ html {
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
       color: #2c3e50;
-      min-height: 100vh;
+      min-height: 100%;
       display: flex;
       flex-direction: column;
     }

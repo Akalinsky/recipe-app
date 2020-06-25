@@ -27,6 +27,5 @@ export default {
     height: 100vh;
     flex-grow: 1;
     overflow: hidden;
-    position: relative;
   }
 </style>

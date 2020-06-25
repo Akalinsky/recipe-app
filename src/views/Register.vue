@@ -17,4 +17,8 @@ export default {
 </script>
 
 <style lang="scss">
+.register-page {
+  display: flex;
+  justify-content: center;
+}
 </style>

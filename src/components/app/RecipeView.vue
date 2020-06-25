@@ -99,7 +99,7 @@ export default {
   overflow-y: scroll;
   scrollbar-width: thin;
   min-height: 0;
-  height: calc(100% - 150px);
+  height: calc(100vh - 150px);
   flex-basis: 80%;
   align-self: stretch;
   text-align: left;
@@ -107,8 +107,9 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
+  z-index: 10;
   @media screen and (max-width: 767px) {
-    flex-basis: 90%;
+    flex-basis: 70%;
   }
   .recipe-header {
     margin: 10px;
@@ -136,7 +137,7 @@ export default {
           background: #42b983;
           border-radius: 5px;
           color: #fff;
-          cursor: pointer
+          cursor: pointer;
         }
       }
       .description {
@@ -185,7 +186,6 @@ export default {
   .recipe-content {
     display: flex;
     flex-flow: column nowrap;
-    margin: 0 0 50px 0;
     .recipe-list {
       margin: 10px;
       display: flex;
@@ -214,7 +214,6 @@ export default {
             width: auto;
             max-width: 100%;
             li {
-              // word-wrap: break-word;
               overflow-wrap: break-word;
               margin: 0 10px;
             }
