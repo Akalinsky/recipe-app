@@ -133,9 +133,9 @@ export default {
         flex-flow: column nowrap;
         padding: 1.5%;
         cursor: pointer;
+        transition: background .2s;
         &:hover {
           background: #d6d6d6;
-          transition: background .2s;
         }
         &.missing-title {
           background: #f4c430;
@@ -144,7 +144,7 @@ export default {
           }
         }
         &.selected {
-          background: #56f1ab;
+          background: var(--color-light-green);
         }
         h3 {
           margin: 5px 10px;
@@ -199,7 +199,7 @@ export default {
             span.recipe-tag {
               margin: 5px;
               padding: 7px;
-              background: #42b983;
+              background: var(--color-green);
               border-radius: 5px;
               color: #fff;
             }

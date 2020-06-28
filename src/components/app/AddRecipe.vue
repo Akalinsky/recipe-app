@@ -20,15 +20,15 @@ export default {
     width: 100%;
     display: inline-block;
     padding: 10px 0;
-    background: #1991eb;
+    background: var(--color-blue);
     color: #fff;
     font-weight: bold;
     cursor: pointer;
     border-bottom: 1px solid #fff;
     height: 40px;
+    transition: background .3s;
     &:hover {
-      background: darken(#1991eb, 10%);
-      transition: background .3s;
+      background: var(--color-blue-darken);
     }
     @media screen and (min-width: 1024px) {
       position: absolute;

@@ -1,17 +1,16 @@
 <template>
+<div class="share-container">
   <div v-if="(singleRecipe)" class="recipe-single">
     <div class="recipe-header">
       <div class="title-container">
         <div class="title-tags">
           <h1 class="recipe-title">{{ singleRecipe.name  }}</h1>
-
+          <div class="description">{{ singleRecipe.description }} </div>
           <div class="recipe-tag-container">
             <span class="recipe-tag" v-for="tag in singleRecipe.tags" :key="tag">{{ tag }}</span>
           </div>
 
         </div>
-
-        <div class="description">{{ singleRecipe.description }} </div>
       </div>
     </div>
 
@@ -28,7 +27,7 @@
     </div>
 
   </div>
-
+</div>
 </template>
 
 <script>
@@ -72,97 +71,92 @@ export default {
 </script>
 
 <style lang="scss">
-.recipe-single {
-  background: #ffffff;
-  overflow-y: scro;
-  scrollbar-width: thin;
-  min-height: 0;
-  height: auto;
-  align-self: stretch;
-  text-align: left;
-  padding: 2%;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  .recipe-header {
-    margin: 10px;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: flex-start;
-    .title-container {
+.share-container {
+  .recipe-single {
+    background: #ffffff;
+    scrollbar-width: thin;
+    text-align: left;
+    padding: 1.5%;
+    .recipe-header {
+      margin: 10px;
+      .title-container {
+        .title-tags {
+          h1.recipe-title {
+            font-size: 42px;
+            padding: 0;
+            margin: 0 0 15px;
+          }
+          .recipe-tag-container {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+            margin-bottom: 10px;
+            .recipe-tag {
+              font-size: 18px;
+              margin: 5px 5px 5px 0;
+              padding: 7px;
+              background: var(--color-green);
+              border-radius: 5px;
+              color: #fff;
+            }
+          }
+        }
+        .description {
+          font-size: 18px;
+          display: inline-block;
+          margin-bottom: 10px;
+        }
+      }
+    }
+    .recipe-content {
       display: flex;
       flex-flow: column nowrap;
-      .title-tags {
+      .recipe-list {
+        margin: 10px;
         display: flex;
-        flex-flow: row wrap;
-        align-items: center;
-        h1.recipe-title {
-          font-size: 42px;
-          margin: 0 50px 0 0;
-          padding: 0 0 10px 0;
-          display: inline-block;
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+        h3 {
+          margin: 0;
         }
-        .recipe-tag-container {
+        section {
           display: flex;
           flex-flow: row wrap;
           justify-content: flex-start;
-          .recipe-tag {
-            font-size: 18px;
-            margin: 5px 5px 5px 0;
-            padding: 7px;
-            background: #42b983;
-            border-radius: 5px;
-            color: #fff;
+          p {
+            display: none;
+          }
+          .sub-list {
+            flex-shrink: 1;
+            box-shadow: var(--simple-box-shadow);
+            padding: 25px 0 25px 25px;
+            margin: 0 2% 0 0;
+            ul {
+              display: flex;
+              flex-flow: column wrap;
+              margin: 0;
+              padding: 0;
+              width: auto;
+              max-width: 100%;
+              li {
+                overflow-wrap: break-word;
+                margin: 0 10px;
+              }
+            }
+            ul + h3 {
+              margin-top: 12px;
+            }
           }
         }
-      }
-      .description {
-        font-size: 18px;
-        display: inline-block;
       }
     }
   }
-    .recipe-content {
-    display: flex;
-    flex-flow: row nowrap;
-    .recipe-list {
-      margin: 10px;
-      h3 {
-        margin: 0;
-      }
-      section {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: flex-start;
-
-        p {
-          display: none;
-        }
-        .sub-list {
-          flex-shrink: 1;
-          box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
-          padding: 25px 0 25px 25px;
-          margin: 0 2% 0 0;
-          ul {
-            display: flex;
-            flex-flow: column wrap;
-            margin: 0;
-            padding: 0;
-            width: auto;
-            max-width: 100%;
-            li {
-              // word-wrap: break-word;
-              overflow-wrap: break-word;
-              margin: 0 10px;
-            }
-          }
-          ul + h3 {
-            margin-top: 12px;
-          }
-        }
-      }
-    }
+  @media screen and (min-width: 1024px) {
+    max-height: 100vh;
+    height: 100vh;
+    margin-top: -50px;
+    padding-top: 50px;
+    overflow: scroll;
   }
 }
 </style>

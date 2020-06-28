@@ -19,7 +19,7 @@ export default {
 
 <style lang="scss">
 header {
-  background: #42b983;
+  background: var(--color-green);
   height: 50px;
   display: flex;
   justify-content: space-between;

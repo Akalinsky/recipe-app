@@ -104,7 +104,7 @@ export default {
       h1.recipe-title {
         font-size: 42px;
         padding: 0;
-        margin-bottom: 15px;
+        margin: 0 0 15px;
       }
       .recipe-tag-container {
         display: flex;
@@ -115,7 +115,7 @@ export default {
           font-size: 18px;
           margin: 5px 5px 5px 0;
           padding: 7px;
-          background: #42b983;
+          background: var(--color-green);
           border-radius: 5px;
           color: #fff;
           cursor: pointer;
@@ -131,7 +131,7 @@ export default {
       display: flex;
       justify-content: space-evenly;
       flex-flow: row wrap;
-      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+      box-shadow: var(--simple-box-shadow);
       padding: 15px 5px;
       max-width: 500px;
       .recipe-action {
@@ -140,26 +140,24 @@ export default {
         border-radius: 5px;
         padding: 5px;
         cursor: pointer;
+        transition: background .3s;
         &.share-recipe-action {
-          background: #1991eb;
+          background: var(--color-blue);
           text-decoration: none;
           &:hover {
-            background: darken(#1991eb, 10%);
-            transition: background .3s;
+            background: var(--color-blue-darken);
           }
         }
         &.edit-recipe-action {
-          background: #1991eb;
+          background: var(--color-blue);
           &:hover {
-            background: darken(#1991eb, 10%);
-            transition: background .3s;
+            background: var(--color-blue-darken);
           }
         }
         &.delete-recipe-action {
-          background: red;
+          background: var(--color-light-red);
           &:hover {
-            background: darken(red, 10%);
-            transition: background .3s;
+            background: var(--color-light-red-darken);
           }
         }
       }
@@ -185,7 +183,7 @@ export default {
         }
         .sub-list {
           flex-shrink: 1;
-          box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+          box-shadow: var(--simple-box-shadow);
           padding: 25px 0 25px 25px;
           margin: 1% 2% 0 0;
           ul {

@@ -181,7 +181,7 @@ export default {
           .vue-input-tag-wrapper {
             span.input-tag {
               font-size: 16px;
-              background-color: #42b983;
+              background: var(--color-green);
               color: #ffffff;
               .remove {
                 color: #000000;
@@ -199,7 +199,7 @@ export default {
             justify-content: space-evenly;
             flex-flow: row wrap;
             padding: 15px 5px;
-            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+            box-shadow: var(--simple-box-shadow);
             margin-bottom: 15px;
             .recipe-action {
               display: inline-block;
@@ -207,18 +207,17 @@ export default {
               border-radius: 5px;
               padding: 5px;
               cursor: pointer;
+              transition: background .3s;
               &.save-recipe {
-                background: #1991eb;
+                background: var(--color-blue);
                 &:hover {
-                  background: darken(#1991eb, 10%);
-                  transition: background .3s;
+                  background: var(--color-blue-darken);
                 }
               }
               &.cancel-edit {
-                background: red;
+                background: var(--color-light-red);
                 &:hover {
-                  background: darken(red, 10%);
-                  transition: background .3s;
+                  background: var(--color-light-red-darken);
                 }
               }
             }

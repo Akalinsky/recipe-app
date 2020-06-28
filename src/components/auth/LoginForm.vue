@@ -38,7 +38,7 @@ export default {
     margin: 50px auto 0;
     width: 80%;
     max-width: 400px;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+    box-shadow: var(--simple-box-shadow);
     padding: 2%;
     h2 {
       padding: 0 0 10px 0;
@@ -53,12 +53,12 @@ export default {
         width: 80%;
         padding: 10px;
         margin: 5px 0;
-        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+        box-shadow: var(--simple-box-shadow);
       }
       .login-action {
         .login-button {
           margin: 10px;
-          background: #42b983;
+          background: var(--color-green);
           width: auto;
           display: inline-block;
           padding: 10px;
@@ -66,6 +66,10 @@ export default {
           cursor: pointer;
           border: none;
           border-radius: 5px;
+          transition: background .3s;
+          &:hover {
+            background: var(--color-green-darken);
+          }
         }
       }
     }
