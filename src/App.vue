@@ -25,22 +25,16 @@ export default {
 </script>
 
 <style lang="scss">
-html {
-  body {
-    margin: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    #app {
-      font-family: Avenir, Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      text-align: center;
-      color: #2c3e50;
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
+* {
+  box-sizing: border-box;
+}
+html,body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow-x: hidden;
+  #app {
+    height: 100vh;
   }
 }
 </style>

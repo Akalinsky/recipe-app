@@ -8,6 +8,11 @@
     <div class="recipe-editor">
 
       <div class="recipe-info recipe-list">
+        <div class="recipe-actions">
+          <div @click="saveRecipe" class="save-recipe recipe-action">Save</div>
+          <div @click="endEditing" class="cancel-edit recipe-action">Cancel</div>
+        </div>
+
         <div class="field-group">
           <label for="name">Name</label>
           <input type="text" name="name" v-model="name">
@@ -23,10 +28,6 @@
           <input-tag v-model="tags"></input-tag>
         </div>
 
-        <div class="recipe-actions">
-          <div @click="saveRecipe" class="save-recipe recipe-action">Save</div>
-          <div @click="endEditing" class="cancel-edit recipe-action">Cancel</div>
-        </div>
       </div>
 
       <div class="recipe-ingredients recipe-list">
@@ -145,7 +146,7 @@ export default {
     min-height: 0;
     height: calc(100vh - 150px);
     flex-basis: 80%;
-    padding: 2%;
+    padding: 1.5%;
     align-self: stretch;
     flex-flow: column nowrap;
     .edit-header {
@@ -155,7 +156,7 @@ export default {
       h1 {
         font-size: 42px;
         margin: 0px;
-        padding: 0 0 20px 0;
+        padding: 0;
       }
     }
     .recipe-editor {
@@ -170,6 +171,7 @@ export default {
           display: flex;
           flex-flow: column wrap;
           margin: 0 10px;
+          width: 100%;
           label {
             font-size: 18px;
           }
@@ -189,6 +191,11 @@ export default {
           .vue-input-tag-wrapper {
             span.input-tag {
               font-size: 16px;
+              background-color: #42b983;
+              color: #ffffff;
+              .remove {
+                color: #000000;
+              }
             }
             input.new-tag {
               font-size: 16px;
@@ -202,7 +209,7 @@ export default {
             display: flex;
             justify-content: flex-start;
             flex-flow: row wrap;
-            padding: 10px 0 0 10px;
+            padding: 0 0 10px 10px;
             .recipe-action {
               display: inline-block;
               margin: 0 15px 0 0;

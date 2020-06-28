@@ -19,13 +19,11 @@ export default {
 
 <style lang="scss">
 header {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-  align-items: center;
   background: #42b983;
-  width: 100%;
-  max-height: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
 }
 
 </style>
