@@ -5,7 +5,7 @@
       <AddRecipe v-if="userLoggedIn" />
       <div @click="collapseCookbook" class="collapse-recipes">Hide Recipes</div>
     </div>
-    <ul class="recipes-list open">
+    <ul class="recipes-list open" :class="{'adjust-margin': (userLoggedIn == false)}">
       <li @click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == 'New Recipe')}" v-for="(recipe, index) in cookbook" :key="index">
         <h3>{{ recipe.name }}</h3>
         <div class="tags-list">
@@ -148,6 +148,7 @@ export default {
         }
         h3 {
           margin: 5px 10px;
+          font-weight: normal;
         }
         .tags-list {
           display: none;
@@ -176,7 +177,10 @@ export default {
         }
       }
       ul.recipes-list {
-        margin-top: 80px;
+        margin-top: 40px;
+        &.adjust-margin {
+          margin-top: 0px;
+        }
         li {
           h3 {
             font-size: 16px;

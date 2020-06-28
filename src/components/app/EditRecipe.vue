@@ -139,16 +139,8 @@ export default {
 
 <style lang="scss">
   .edit-recipe {
-    display: flex;
     background: #ffffff;
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    min-height: 0;
-    height: calc(100vh - 150px);
-    flex-basis: 80%;
     padding: 1.5%;
-    align-self: stretch;
-    flex-flow: column nowrap;
     .edit-header {
       text-align: left;
       margin: 1% 2% 0 2%;
@@ -162,27 +154,25 @@ export default {
     .recipe-editor {
       text-align: left;
       padding: 2%;
-      display: flex;
-      flex-flow: row wrap;
-      align-items: flex-start;
       .recipe-list {
-        flex-basis: 35%;
         .field-group {
-          display: flex;
-          flex-flow: column wrap;
-          margin: 0 10px;
+          margin: 0 10px 20px 10px;
           width: 100%;
           label {
             font-size: 18px;
+            display: block;
+            font-weight: bold;
           }
           input {
             border-radius: 4px;
             font-size: 16px;
+            width: 100%;
           }
           textarea {
             resize: vertical;
             min-height: 175px;
             font-size: 16px;
+            width: 100%;
           }
           input:not(.new-tag) {
             padding: 12px 20px;
@@ -203,16 +193,16 @@ export default {
           }
         }
         &.recipe-info {
-          flex-basis: 30%;
           .recipe-actions {
-            width: 100%;
+            width: 200px;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-evenly;
             flex-flow: row wrap;
-            padding: 0 0 10px 10px;
+            padding: 15px 5px;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+            margin-bottom: 15px;
             .recipe-action {
               display: inline-block;
-              margin: 0 15px 0 0;
               color: #ffffff;
               border-radius: 5px;
               padding: 5px;
@@ -235,6 +225,13 @@ export default {
           }
         }
       }
+    }
+    @media screen and (min-width: 1024px) {
+      grid-area: recipe;
+      max-height: 100vh;
+      overflow: auto;
+      box-sizing: border-box;
+      scrollbar-width: thin;
     }
   }
 </style>

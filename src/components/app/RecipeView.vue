@@ -129,14 +129,13 @@ export default {
     }
     .recipe-actions {
       display: flex;
-      justify-content: center;
+      justify-content: space-evenly;
       flex-flow: row wrap;
       box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
-      padding: 20px;
+      padding: 15px 5px;
       max-width: 500px;
       .recipe-action {
         display: inline-block;
-        margin: 5px 5px 0 0;
         color: #ffffff;
         border-radius: 5px;
         padding: 5px;
