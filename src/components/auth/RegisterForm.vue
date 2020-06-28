@@ -2,11 +2,9 @@
   <div class="register-form">
     <h2>Register</h2>
     <form @submit.prevent="registerUser( {username: username, password: password})">
-      <label>Username</label>
-      <input type="text" required v-model="username">
+      <input type="text" placeholder="Password" required v-model="username">
 
-      <label>Password</label>
-      <input type="password" required v-model="password">
+      <input type="password" placeholder="Password" required v-model="password">
 
       <div class="register-action">
         <button type="submit" class="register-button">Register Account</button>
@@ -36,38 +34,27 @@ export default {
 
 <style lang="scss">
   .register-form {
-    width: 20%;
-    min-width: 500px;
-    margin: 20px auto;
+    margin: 50px auto 0;
+    width: 80%;
+    max-width: 400px;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
     padding: 2%;
-    @media screen and (max-width: 530px) {
-      min-width: unset;
-      width: 95%;
-      margin: 0;
-      padding: 0;
-    }
     h2 {
       padding: 0 0 10px 0;
       margin: 0;
     }
     form {
-      display: flex;
-      justify-content: center;
-      flex-flow: column nowrap;
-      label {
-        font-size: 16px;
-        margin: 10px;
-      }
+      text-align: center;
       input {
-        align-self: center;
         border-radius: 4px;
         font-size: 16px;
-        padding: 12px 20px;
         border: 1px solid #ccc;
+        width: 80%;
+        padding: 10px;
+        margin: 5px 0;
+        box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
       }
       .register-action {
-
         .register-button {
           margin: 10px;
           background: #42b983;
