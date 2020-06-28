@@ -1,9 +1,12 @@
 <template>
   <div class="sidebar-container">
-    <input id="search-recipes" :value="searchCookbook" @input="filterCookbook" placeholder="Filter Cookbook..." type="search">
-    <AddRecipe v-if="userLoggedIn" />
-    <ul class="recipes-list">
-      <li v-on:click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == 'New Recipe')}" v-for="(recipe, index) in cookbook" :key="index">
+    <div class="cookbook-actions">
+      <input id="search-recipes" :value="searchCookbook" @input="filterCookbook" placeholder="Filter Cookbook..." type="search">
+      <AddRecipe v-if="userLoggedIn" />
+      <div @click="collapseCookbook" class="collapse-recipes">Hide Recipes</div>
+    </div>
+    <ul class="recipes-list open" :class="{'adjust-margin': (userLoggedIn == false)}">
+      <li @click="changeRecipe(index)" :class="{ 'selected':(index == currentRecipeIndex), 'missing-title':(recipe.name == 'New Recipe')}" v-for="(recipe, index) in cookbook" :key="index">
         <h3>{{ recipe.name }}</h3>
         <div class="tags-list">
           <span class="recipe-tag" v-for="tag in recipe.tags" :key="tag">{{ tag }}</span>
@@ -54,6 +57,16 @@ export default {
         this.endEditing()
         this.changeCurrentRecipe(index)
       }
+    },
+    collapseCookbook (event) {
+      const cookbookList = document.getElementsByClassName('recipes-list')[0]
+      cookbookList.classList.toggle('open')
+      event.target.classList.toggle('open')
+      if (event.target.textContent.includes('Show')) {
+        event.target.textContent = 'Hide Recipes'
+      } else {
+        event.target.textContent = 'Show Recipes'
+      }
     }
   },
   created () {
@@ -66,30 +79,36 @@ export default {
   .sidebar-container {
     padding: 0;
     margin: 0;
-    flex-basis: 20%;
-    align-self: stretch;
-    display: flex;
-    height: 100vh;
-    min-height: 0;
-    flex-flow: column nowrap;
-    overflow: hidden;
-    background: transparent;
-    @media screen and (max-width: 767px) {
-      flex-basis: 45%;
-    }
-    input#search-recipes {
-      border: none;
-      border-right: 1px solid #f5f5f5;
-      font-size: 20px;
-      padding: 7px;
-      @media screen and (max-width: 767px) {
-        font-size: 16px;
+    background: #ffffff;
+    border-right: 1px solid #d3d3d3;
+    .cookbook-actions {
+      display: flex;
+      flex-flow: column nowrap;
+      input#search-recipes {
+        border: none;
+        border-right: 1px solid #f5f5f5;
+        font-size: 20px;
+        padding: 7px;
+        width: 100%;
+        height: 40px;
+        &:focus {
+          outline: none;
+        }
       }
-      @media screen and (max-width: 700px) {
-        font-size: 12px;
-      }
-      &:focus {
-        outline: none;
+      .collapse-recipes {
+        background: #a0a0a0;
+        color: #ffffff;
+        text-align: center;
+        padding: 10px 0;
+        font-weight: bold;
+        border-bottom: 1px solid #ffffff;
+        height: 40px;
+        display: inline-block;
+        cursor: pointer;
+        transition: background .2s;
+        &:hover {
+          background: darken(#a0a0a0, 10%);
+        }
       }
     }
     ul.recipes-list {
@@ -99,22 +118,24 @@ export default {
       overflow-y: scroll;
       // Firefox Hack because scrollbars are fucking dumb
       scrollbar-width: thin;
-      min-height: 0;
-      height: calc(100% - 150px);
-      align-self: stretch;
+      background: #dfdfdf;
       display: flex;
       flex-flow: column nowrap;
-      background: #dfdfdf;
+      max-height: 0;
+      &.open {
+        max-height: none;
+      }
       li {
         border-bottom: 1px solid #f5f5f5;
         text-align: left;
         width: 100%;
         display: flex;
         flex-flow: column nowrap;
+        padding: 1.5%;
         cursor: pointer;
+        transition: background .2s;
         &:hover {
           background: #d6d6d6;
-          transition: background .2s;
         }
         &.missing-title {
           background: #f4c430;
@@ -123,28 +144,65 @@ export default {
           }
         }
         &.selected {
-          background: #56f1ab;
+          background: var(--color-light-green);
         }
         h3 {
-          margin: 20px 10px;
-          @media screen and (max-width: 767px) {
-            font-size: 14px;
-          }
+          margin: 5px 10px;
+          font-weight: normal;
         }
         .tags-list {
-          display: flex;
-          flex-flow: row wrap;
-          justify-content: flex-start;
-          margin: 0 0 0 20px;
-          @media screen and (max-width: 767px) {
+          display: none;
+        }
+      }
+    }
+    @media screen and (min-width: 1024px) {
+      position: relative;
+      grid-area: cookbook;
+      height: auto;
+      overflow: auto;
+      .cookbook-actions {
+        input#search-results{
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        .collapse-recipes {
+          position: absolute;
+          width: 100%;
+          top: 80px;
+          padding: 10px 0;
+          &:not(.open) {
             display: none;
           }
-          span.recipe-tag {
-            margin: 5px;
-            padding: 7px;
-            background: #42b983;
-            border-radius: 5px;
-            color: #fff;
+        }
+      }
+      ul.recipes-list {
+        margin-top: 40px;
+        &.adjust-margin {
+          margin-top: 0px;
+        }
+        li {
+          h3 {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+    @media screen and (min-width: 1400px) {
+      ul.recipes-list {
+        li {
+          .tags-list {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+            margin: 0 0 0 20px;
+            span.recipe-tag {
+              margin: 5px;
+              padding: 7px;
+              background: var(--color-green);
+              border-radius: 5px;
+              color: #fff;
+            }
           }
         }
       }

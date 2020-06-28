@@ -123,14 +123,11 @@ app.post('/login', async (req, res) => {
     const user = await users.findOne({ username: username })
 
     if (!user) {
-      return res.status(403).send({
-        error: 'Your login information was incorrect'
-      })
+      return res.status(403).send({ error: 'Your login information was incorrect' })
     }
 
     const validPassword = await passwordAuth.comparePassword(user.password, password)
     if (!validPassword) {
-      console.log('fired')
       return res.status(403).send({ error: 'Your login information was incorrect' })
     }
 

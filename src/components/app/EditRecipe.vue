@@ -8,6 +8,11 @@
     <div class="recipe-editor">
 
       <div class="recipe-info recipe-list">
+        <div class="recipe-actions">
+          <div @click="saveRecipe" class="save-recipe recipe-action">Save</div>
+          <div @click="endEditing" class="cancel-edit recipe-action">Cancel</div>
+        </div>
+
         <div class="field-group">
           <label for="name">Name</label>
           <input type="text" name="name" v-model="name">
@@ -23,10 +28,6 @@
           <input-tag v-model="tags"></input-tag>
         </div>
 
-        <div class="recipe-actions">
-          <div @click="saveRecipe" class="save-recipe recipe-action">Save</div>
-          <div @click="endEditing" class="cancel-edit recipe-action">Cancel</div>
-        </div>
       </div>
 
       <div class="recipe-ingredients recipe-list">
@@ -138,16 +139,8 @@ export default {
 
 <style lang="scss">
   .edit-recipe {
-    display: flex;
     background: #ffffff;
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    min-height: 0;
-    height: calc(100vh - 150px);
-    flex-basis: 80%;
-    padding: 2%;
-    align-self: stretch;
-    flex-flow: column nowrap;
+    padding: 1.5%;
     .edit-header {
       text-align: left;
       margin: 1% 2% 0 2%;
@@ -155,32 +148,31 @@ export default {
       h1 {
         font-size: 42px;
         margin: 0px;
-        padding: 0 0 20px 0;
+        padding: 0;
       }
     }
     .recipe-editor {
       text-align: left;
       padding: 2%;
-      display: flex;
-      flex-flow: row wrap;
-      align-items: flex-start;
       .recipe-list {
-        flex-basis: 35%;
         .field-group {
-          display: flex;
-          flex-flow: column wrap;
-          margin: 0 10px;
+          margin: 0 10px 20px 10px;
+          width: 100%;
           label {
             font-size: 18px;
+            display: block;
+            font-weight: bold;
           }
           input {
             border-radius: 4px;
             font-size: 16px;
+            width: 100%;
           }
           textarea {
             resize: vertical;
             min-height: 175px;
             font-size: 16px;
+            width: 100%;
           }
           input:not(.new-tag) {
             padding: 12px 20px;
@@ -189,6 +181,11 @@ export default {
           .vue-input-tag-wrapper {
             span.input-tag {
               font-size: 16px;
+              background: var(--color-green);
+              color: #ffffff;
+              .remove {
+                color: #000000;
+              }
             }
             input.new-tag {
               font-size: 16px;
@@ -196,38 +193,44 @@ export default {
           }
         }
         &.recipe-info {
-          flex-basis: 30%;
           .recipe-actions {
-            width: 100%;
+            width: 200px;
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-evenly;
             flex-flow: row wrap;
-            padding: 10px 0 0 10px;
+            padding: 15px 5px;
+            box-shadow: var(--simple-box-shadow);
+            margin-bottom: 15px;
             .recipe-action {
               display: inline-block;
-              margin: 0 15px 0 0;
               color: #ffffff;
               border-radius: 5px;
               padding: 5px;
               cursor: pointer;
+              transition: background .3s;
               &.save-recipe {
-                background: #1991eb;
+                background: var(--color-blue);
                 &:hover {
-                  background: darken(#1991eb, 10%);
-                  transition: background .3s;
+                  background: var(--color-blue-darken);
                 }
               }
               &.cancel-edit {
-                background: red;
+                background: var(--color-light-red);
                 &:hover {
-                  background: darken(red, 10%);
-                  transition: background .3s;
+                  background: var(--color-light-red-darken);
                 }
               }
             }
           }
         }
       }
+    }
+    @media screen and (min-width: 1024px) {
+      grid-area: recipe;
+      max-height: 100vh;
+      overflow: auto;
+      box-sizing: border-box;
+      scrollbar-width: thin;
     }
   }
 </style>

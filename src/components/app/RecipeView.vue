@@ -96,45 +96,26 @@ export default {
 <style lang="scss">
 .recipe-view {
   background: #ffffff;
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  min-height: 0;
-  height: calc(100vh - 150px);
-  flex-basis: 80%;
-  align-self: stretch;
   text-align: left;
-  padding: 2%;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
-  z-index: 10;
-  @media screen and (max-width: 767px) {
-    flex-basis: 70%;
-  }
+  padding: 1.5%;
   .recipe-header {
     margin: 10px;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: flex-start;
     .title-container {
-      display: flex;
-      flex-flow: column nowrap;
       h1.recipe-title {
         font-size: 42px;
         padding: 0;
-        display: inline-block;
-        margin: 0px 0 20px 0;
+        margin: 0 0 15px;
       }
       .recipe-tag-container {
         display: flex;
         flex-flow: row wrap;
         justify-content: flex-start;
+        margin-bottom: 10px;
         .recipe-tag {
           font-size: 18px;
           margin: 5px 5px 5px 0;
           padding: 7px;
-          background: #42b983;
+          background: var(--color-green);
           border-radius: 5px;
           color: #fff;
           cursor: pointer;
@@ -143,41 +124,40 @@ export default {
       .description {
         font-size: 18px;
         display: inline-block;
+        margin-bottom: 10px;
       }
     }
     .recipe-actions {
       display: flex;
-      justify-content: center;
+      justify-content: space-evenly;
       flex-flow: row wrap;
-      box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
-      padding: 20px;
+      box-shadow: var(--simple-box-shadow);
+      padding: 15px 5px;
+      max-width: 500px;
       .recipe-action {
         display: inline-block;
-        margin: 5px 5px 0 0;
         color: #ffffff;
         border-radius: 5px;
         padding: 5px;
         cursor: pointer;
+        transition: background .3s;
         &.share-recipe-action {
-          background: #1991eb;
+          background: var(--color-blue);
           text-decoration: none;
           &:hover {
-            background: darken(#1991eb, 10%);
-            transition: background .3s;
+            background: var(--color-blue-darken);
           }
         }
         &.edit-recipe-action {
-          background: #1991eb;
+          background: var(--color-blue);
           &:hover {
-            background: darken(#1991eb, 10%);
-            transition: background .3s;
+            background: var(--color-blue-darken);
           }
         }
         &.delete-recipe-action {
-          background: red;
+          background: var(--color-light-red);
           &:hover {
-            background: darken(red, 10%);
-            transition: background .3s;
+            background: var(--color-light-red-darken);
           }
         }
       }
@@ -203,7 +183,7 @@ export default {
         }
         .sub-list {
           flex-shrink: 1;
-          box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
+          box-shadow: var(--simple-box-shadow);
           padding: 25px 0 25px 25px;
           margin: 1% 2% 0 0;
           ul {
@@ -224,6 +204,12 @@ export default {
         }
       }
     }
+  }
+  @media screen and (min-width: 1024px) {
+    grid-area: recipe;
+    max-height: 100vh;
+    overflow: scroll;
+    box-sizing: border-box;
   }
 }
 </style>

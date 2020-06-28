@@ -34,15 +34,13 @@ export default {
 
 <style lang="scss">
 nav {
-  align-self: center;
-  margin: 0 1rem 0 0;
   ul {
-    margin: 0;
-    padding: 0;
     list-style: none;
+    display: flex;
+    justify-content: space-around;
     li{
-      display: inline;
-      margin: .5rem;
+      display: inline-block;
+      margin: 0 5px;
       a,div{
         display: inline;
         color: #ffffff;

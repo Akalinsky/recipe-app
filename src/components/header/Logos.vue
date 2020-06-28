@@ -13,9 +13,11 @@ export default {
 
 <style lang="scss">
   .header-left {
-    .page-title {
+    h2.page-title {
       color: #fff;
-      padding: 0 0 0 10px;
+      margin: 0;
+      padding: 10px 0 10px 10px;
+      font-weight: normal;
       a {
         color: #fff;
         text-decoration: none;
