@@ -13,7 +13,7 @@
       </div>
 
       <div class="recipe-actions">
-        <router-link class="share-recipe-action recipe-action" :to="'/recipe/'+getCurrentRecipe._id + '_' + urlEncodeShare(getCurrentRecipe.name)">Share Recipe</router-link>
+        <div class="share-recipe-action recipe-action" @click="shareNav('/recipe/'+getCurrentRecipe._id + '_' + urlEncodeShare(getCurrentRecipe.name))">Share Recipe</div>
         <div v-if="userLoggedIn" @click="startEditing(getCurrentRecipe)" class="edit-recipe-action recipe-action">Edit Recipe</div>
         <div v-if="userLoggedIn" @click="deleteRecipe(getCurrentRecipe)" class="delete-recipe-action recipe-action">Delete Recipe</div>
       </div>
@@ -69,16 +69,22 @@ export default {
   methods: {
     ...mapActions([
       'deleteRecipe',
-      'startEditing'
+      'startEditing',
+      'pushNotification'
     ]),
     ...mapMutations([
       'filterCookbook'
     ]),
-    copyShareLink () {
-      const shareLink = document.querySelector('.share-recipe-action')
-      shareLink.setAttribute('type', 'text')
-      shareLink.select()
+    shareNav (link) {
+      const tempInput = document.createElement('input')
+      const url = window.origin + link
+      document.body.appendChild(tempInput)
+      tempInput.value = url
+      tempInput.select()
       document.execCommand('copy')
+      document.body.removeChild(tempInput)
+      this.pushNotification({ message: 'URL Copied to Clipboard!', type: 'normal', duration: 5000 })
+      this.$router.push({ path: link, params: { copiedLink: true } })
     },
     urlEncodeShare (string) {
       return encodeURI(string.replace(/\s+/g, '-').toLowerCase())

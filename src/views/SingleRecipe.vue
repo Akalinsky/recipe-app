@@ -61,21 +61,11 @@ export default {
     ...mapActions([
       'fetchSingleRecipe',
       'userFromStorage'
-    ]),
-    copyUrl () {
-      const tempInput = document.createElement('input')
-      const url = window.location.href
-      document.body.appendChild(tempInput)
-      tempInput.value = url
-      tempInput.select()
-      document.execCommand('copy')
-      document.body.removeChild(tempInput)
-    }
+    ])
   },
   created () {
     this.userFromStorage()
     this.fetchSingleRecipe(this.$route.params.id)
-    this.copyUrl()
   }
 }
 </script>
