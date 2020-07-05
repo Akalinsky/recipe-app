@@ -1,6 +1,5 @@
 <template>
   <div v-if="(getCurrentRecipe && editingRecipe)" class="edit-recipe">
-
     <div class="edit-header">
       <h1>Edit Recipe</h1>
     </div>
@@ -184,7 +183,7 @@ export default {
               background: var(--color-green);
               color: #ffffff;
               .remove {
-                color: #000000;
+                color: #ffffff;
               }
             }
             input.new-tag {

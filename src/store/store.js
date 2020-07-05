@@ -20,7 +20,8 @@ export default new Vuex.Store({
     changedRecipe: {},
     singleRecipe: null,
     user: null,
-    token: null
+    token: null,
+    notifications: []
   },
   mutations: {
     addRecipe (state, uuid) {
@@ -62,6 +63,17 @@ export default new Vuex.Store({
       state.filteredCookbook = filterCookbook(state.cookbook, search)
       state.currentRecipeIndex = 0
     },
+    pushNotification (state, notification) {
+      state.notifications.push({
+        ...notification,
+        id: (Math.random().toString(36) + Date.now().toString(36)).substr(2)
+      })
+    },
+    removeNotification (state, notificationToRemove) {
+      state.notifications = state.notifications.filter(notification => {
+        return notification.id !== notificationToRemove
+      })
+    },
     setSingleRecipe (state, recipe) {
       state.singleRecipe = recipe
     },
@@ -82,7 +94,7 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    addRecipe (context) {
+    addRecipe ({ commit, dispatch }) {
       const uuid = uuidv4()
       window.fetch(dbURL, {
         method: 'post',
@@ -101,21 +113,24 @@ export default new Vuex.Store({
       })
         .then(res => {
           if (res.ok) {
-            context.commit('addRecipe', uuid)
-            context.commit('changeCurrentRecipe', 0)
+            commit('addRecipe', uuid)
+            commit('changeCurrentRecipe', 0)
           } else {
-            console.log(`Error ${res.status} ${res.statusText}`)
+            console.error(`Error ${res.status} ${res.statusText}`)
+            dispatch('pushNotification', { message: res.error, type: 'error', duration: null })
           }
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+          dispatch('pushNotification', { message: err.error, type: 'error', duration: null })
+        })
     },
-    changeCurrentRecipe (context, recipeIndex) {
-      context.commit('changeCurrentRecipe', recipeIndex)
+    changeCurrentRecipe ({ commit }, recipeIndex) {
+      commit('changeCurrentRecipe', recipeIndex)
     },
-    updateDetected (context, status) {
-      context.commit('updateChanges', status)
+    updateDetected ({ commit }, status) {
+      commit('updateChanges', status)
     },
-    deleteRecipe (context, deletedRecipe) {
+    deleteRecipe ({ commit, dispatch }, deletedRecipe) {
       if (window.confirm(`Do you really want to delete ${deletedRecipe.name}`)) {
         window.fetch(dbURL, {
           method: 'delete',
@@ -129,43 +144,59 @@ export default new Vuex.Store({
         })
           .then(res => {
             if (res.ok) {
-              // Should I be committing a mutation to the cookbook here?
-              // Or fetching the cookbook again from the DB?
-              // Works on Second click - super odd. Undecided - **REVISIT**
-              // .then(context.dispatch('getCookbook'))
-              context.commit('deleteRecipe', deletedRecipe)
+              commit('deleteRecipe', deletedRecipe)
             } else {
-              console.log(`Error ${res.status} ${res.statusText}`)
+              console.error(`Error ${res.status} ${res.statusText}`)
+              dispatch('pushNotification', { message: res.error, type: 'error', duration: null })
             }
           })
-          .catch(err => console.error(err))
+          .catch(err => {
+            dispatch('pushNotification', { message: err.error, type: 'error', duration: null })
+          })
       }
     },
-    startEditing (context, editingRecipe) {
-      context.commit('editingStatus', true)
-      context.commit('updateContent', editingRecipe)
+    startEditing ({ commit }, editingRecipe) {
+      commit('editingStatus', true)
+      commit('updateContent', editingRecipe)
     },
-    endEditing (context) {
-      context.commit('editingStatus', false)
-      context.commit('clearRecipeChanges')
+    endEditing ({ commit }) {
+      commit('editingStatus', false)
+      commit('clearRecipeChanges')
     },
-    filterCookbook (context, search) {
-      context.commit('filterCookbook', search.target.value)
+    filterCookbook ({ commit }, search) {
+      commit('filterCookbook', search.target.value)
     },
-    fetchCookbook (context) {
+    fetchCookbook ({ commit, dispatch }) {
       window.fetch(dbURL)
         .then(response => response.json())
-        .then(data => context.commit('setCookbook', data))
-        .catch(err => console.error(err))
+        .then(data => {
+          if (data.error) {
+            dispatch('pushNotification', { message: data.error, type: 'error', duration: null })
+          } else {
+            commit('setCookbook', data)
+          }
+        })
+        .catch(err => {
+          dispatch('pushNotification', { message: err.error, type: 'error', duration: null })
+        }
+        )
     },
-    fetchSingleRecipe (context, id) {
+    fetchSingleRecipe ({ commit, dispatch }, id) {
       const singleRecipeURL = dbURL + 'recipe/' + id
       window.fetch(singleRecipeURL)
         .then(response => response.json())
-        .then(data => context.commit('setSingleRecipe', data))
-        .catch(err => console.error(err))
+        .then(data => {
+          if (data.error) {
+            dispatch('pushNotification', { message: data.error, type: 'error', duration: null })
+          } else {
+            commit('setSingleRecipe', data)
+          }
+        })
+        .catch(err => {
+          dispatch('pushNotification', { message: err.error, type: 'error', duration: null })
+        })
     },
-    loginUser (context, credentials) {
+    loginUser ({ commit, dispatch }, credentials) {
       window.fetch(dbURL + 'login', {
         method: 'post',
         headers: { 'Content-Type': 'application/json; charset=UTF-8' },
@@ -177,10 +208,10 @@ export default new Vuex.Store({
         .then(res => res.json())
         .then(data => {
           if (data.error) {
-            console.log(data.error)
+            dispatch('pushNotification', { message: data.error, type: 'error', duration: null })
           } else {
-            context.commit('setUser', data.username)
-            context.commit('setToken', data.token)
+            commit('setUser', data.username)
+            commit('setToken', data.token)
             setStorage({
               token: data.token,
               username: data.username
@@ -189,7 +220,10 @@ export default new Vuex.Store({
           }
         })
     },
-    registerUser (context, credentials) {
+    pushNotification ({ commit }, notification) {
+      commit('pushNotification', notification)
+    },
+    registerUser ({ commit, dispatch }, credentials) {
       window.fetch(dbURL + 'register', {
         method: 'post',
         headers: { 'Content-Type': 'application/json; charset=UTF-8' },
@@ -201,10 +235,10 @@ export default new Vuex.Store({
         .then(res => res.json())
         .then(data => {
           if (data.error) {
-            console.log(data.error)
+            dispatch('pushNotification', { message: data.error, type: 'warning', duration: 3000 })
           } else {
-            context.commit('setUser', data.username)
-            context.commit('setToken', data.token)
+            commit('setUser', data.username)
+            commit('setToken', data.token)
             setStorage({
               token: data.token,
               username: data.username
@@ -213,7 +247,10 @@ export default new Vuex.Store({
           }
         })
     },
-    saveRecipe (context) {
+    removeNotification ({ commit }, notification) {
+      commit('removeNotification', notification)
+    },
+    saveRecipe ({ commit, dispatch }) {
       window.fetch(dbURL, {
         method: 'put',
         headers: {
@@ -224,20 +261,23 @@ export default new Vuex.Store({
       })
         .then(res => {
           if (res.ok) {
-            context.commit('updateCookbook')
-            context.commit('editingStatus', false)
-            context.commit('updateChanges', false)
+            commit('updateCookbook')
+            commit('editingStatus', false)
+            commit('updateChanges', false)
           } else {
-            console.log(`Error ${res.status} ${res.statusText}`)
+            console.error(`Error ${res.status} ${res.statusText}`)
+            dispatch('pushNotification', { message: res.error, type: 'error', duration: null })
           }
         })
-        .catch(err => console.error(err))
+        .catch(err => {
+          dispatch('pushNotification', { message: err.error, type: 'error', duration: null })
+        })
     },
-    userFromStorage (context) {
+    userFromStorage ({ commit }) {
       const user = readStorage()
       if (user) {
-        context.commit('setUser', user.username)
-        context.commit('setToken', user.token)
+        commit('setUser', user.username)
+        commit('setToken', user.token)
       }
     }
   },

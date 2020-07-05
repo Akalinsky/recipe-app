@@ -2,16 +2,19 @@
   <div id="app">
     <Header />
     <router-view/>
+    <notifications-list />
   </div>
 </template>
 
 <script>
 import Header from '@/components/header/Header'
+import NotificationsList from '@/components/notification/NotificationsList'
 import { mapActions } from 'vuex'
 
 export default {
   components: {
-    Header
+    Header,
+    NotificationsList
   },
   methods: {
     ...mapActions([

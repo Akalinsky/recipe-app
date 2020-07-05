@@ -9,6 +9,10 @@ app.use(cors())
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
+const standardError = { error: 'Something Went wrong, please try again' }
+const loginError = { error: 'Login information was incorrect, please try again' }
+const accessDenied = { error: 'Unauthorized: Access Denied' }
+
 app.get('/', async (req, res) => {
   try {
     const recipes = await loadRecipesCollection()
@@ -16,6 +20,7 @@ app.get('/', async (req, res) => {
     res.send(await recipes.find().sort(recipeName).toArray())
   } catch (err) {
     console.log(err)
+    return res.status(500).send(standardError)
   }
 })
 
@@ -26,6 +31,7 @@ app.get('/recipe/:id', async (req, res) => {
     res.send(await recipes.findOne({ _id: id }))
   } catch (err) {
     console.log(err)
+    return res.status(500).send(standardError)
   }
 })
 
@@ -37,9 +43,10 @@ app.delete('/', async (req, res) => {
       res.send(await recipes.deleteOne({ _id: req.body._id }))
     } catch (err) {
       console.error(err)
+      return res.status(500).send(standardError)
     }
   } else {
-    res.status(403).send()
+    res.status(403).send(accessDenied)
   }
 })
 
@@ -51,9 +58,10 @@ app.post('/', async (req, res) => {
       res.send(await recipes.insertOne(req.body))
     } catch (err) {
       console.error(err)
+      return res.status(500).send(standardError)
     }
   } else {
-    res.status(403).send()
+    res.status(403).send(accessDenied)
   }
 })
 
@@ -79,9 +87,10 @@ app.put('/', async (req, res) => {
       ))
     } catch (err) {
       console.error(err)
+      return res.status(500).send(standardError)
     }
   } else {
-    res.status(403).send()
+    res.status(403).send(accessDenied)
   }
 })
 
@@ -109,10 +118,12 @@ app.post('/register', async (req, res) => {
         })
       } catch (err) {
         console.error(err)
+        return res.status(500).send(standardError)
       }
     }
   } catch (err) {
     console.error(err)
+    return res.status(500).send(standardError)
   }
 })
 
@@ -123,12 +134,12 @@ app.post('/login', async (req, res) => {
     const user = await users.findOne({ username: username })
 
     if (!user) {
-      return res.status(403).send({ error: 'Your login information was incorrect' })
+      return res.status(401).send(loginError)
     }
 
     const validPassword = await passwordAuth.comparePassword(user.password, password)
     if (!validPassword) {
-      return res.status(403).send({ error: 'Your login information was incorrect' })
+      return res.status(401).send(loginError)
     }
 
     res.send({
@@ -137,6 +148,7 @@ app.post('/login', async (req, res) => {
     })
   } catch (err) {
     console.error(err)
+    return res.status(500).send(standardError)
   }
 })
 
