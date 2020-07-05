@@ -3,6 +3,7 @@
     <Header />
     <router-view/>
     <notifications-list />
+    <vue-confirm-dialog class="confirm-modal" />
   </div>
 </template>
 
@@ -38,6 +39,25 @@ html,body {
   overflow-x: hidden;
   #app {
     height: 100vh;
+    #vueConfirm.confirm-modal {
+      .vc-container {
+        width: auto;
+        border-radius: 5px;
+        .vc-title {
+          font-size: 20px;
+        }
+        .vc-text {
+          font-size: 18px;
+        }
+        .vc-btn-grid {
+          border-radius: 5px;
+          .vc-btn {
+          border-radius: 5px;
+          border: none;
+        }
+        }
+      }
+    }
   }
 }
 

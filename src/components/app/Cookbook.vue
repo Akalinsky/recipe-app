@@ -48,11 +48,23 @@ export default {
     ]),
     changeRecipe (index) {
       if (this.editingRecipe === true && this.changesDetected === true) {
-        if (window.confirm('Changing recipes will cause you to lose changes to previous edits. Continue?')) {
-          this.endEditing()
-          this.updateDetected(false)
-          this.changeCurrentRecipe(index)
-        }
+        this.$confirm(
+          {
+            title: 'Unsaved Changes',
+            message: 'Changing recipes will cause you to lose unsaved changes. Continue?',
+            button: {
+              no: 'Cancel',
+              yes: 'Change Recipe'
+            },
+            callback: confirm => {
+              if (confirm) {
+                this.endEditing()
+                this.updateDetected(false)
+                this.changeCurrentRecipe(index)
+              }
+            }
+          }
+        )
       } else {
         this.endEditing()
         this.changeCurrentRecipe(index)

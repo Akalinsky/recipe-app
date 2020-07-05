@@ -131,29 +131,39 @@ export default new Vuex.Store({
       commit('updateChanges', status)
     },
     deleteRecipe ({ commit, dispatch }, deletedRecipe) {
-      if (window.confirm(`Do you really want to delete ${deletedRecipe.name}`)) {
-        window.fetch(dbURL, {
-          method: 'delete',
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            Authorization: `Bearer ${this.state.token}`
-          },
-          body: JSON.stringify({
-            _id: deletedRecipe._id
-          })
-        })
-          .then(res => {
-            if (res.ok) {
-              commit('deleteRecipe', deletedRecipe)
-            } else {
-              console.error(`Error ${res.status} ${res.statusText}`)
-              dispatch('pushNotification', { message: res.error, type: 'error', duration: null })
-            }
-          })
-          .catch(err => {
-            dispatch('pushNotification', { message: err.error, type: 'error', duration: null })
-          })
-      }
+      Vue.$confirm({
+        title: 'Delete Recipe',
+        message: `Are you sure you want to delete ${deletedRecipe.name}?`,
+        button: {
+          no: 'Cancel',
+          yes: 'Delete'
+        },
+        callback: confirm => {
+          if (confirm) {
+            window.fetch(dbURL, {
+              method: 'delete',
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                Authorization: `Bearer ${this.state.token}`
+              },
+              body: JSON.stringify({
+                _id: deletedRecipe._id
+              })
+            })
+              .then(res => {
+                if (res.ok) {
+                  commit('deleteRecipe', deletedRecipe)
+                } else {
+                  console.error(`Error ${res.status} ${res.statusText}`)
+                  dispatch('pushNotification', { message: res.error, type: 'error', duration: null })
+                }
+              })
+              .catch(err => {
+                dispatch('pushNotification', { message: err.error, type: 'error', duration: null })
+              })
+          }
+        }
+      })
     },
     startEditing ({ commit }, editingRecipe) {
       commit('editingStatus', true)
