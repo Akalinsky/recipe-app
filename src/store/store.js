@@ -227,6 +227,7 @@ export default new Vuex.Store({
               username: data.username
             })
             router.push('/')
+            dispatch('pushNotification', { message: 'Successfully Logged in!', type: 'success', duration: 5000 })
           }
         })
     },
@@ -254,6 +255,8 @@ export default new Vuex.Store({
               username: data.username
             })
             router.push('/')
+            dispatch('pushNotification', { message: 'Account Creation Successful', type: 'success', duration: 5000 })
+            dispatch('pushNotification', { message: 'You are now logged in!', type: 'success', duration: 5000 })
           }
         })
     },
@@ -308,6 +311,13 @@ export default new Vuex.Store({
         return true
       } else {
         return false
+      }
+    },
+    hasSearchResults: state => {
+      if (state.searchCookbook !== '' && state.filteredCookbook.length === 0) {
+        return false
+      } else {
+        return true
       }
     }
   },

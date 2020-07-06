@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex'
+import { mapGetters, mapMutations, mapActions } from 'vuex'
 import { clearStorage } from '../../store/helpers/localStorage.js'
 
 export default {
@@ -23,10 +23,14 @@ export default {
       'setToken',
       'setUser'
     ]),
+    ...mapActions([
+      'pushNotification'
+    ]),
     logout () {
       this.setToken(null)
       this.setUser(null)
       clearStorage(['token', 'username'])
+      this.pushNotification({ message: 'You Have Been Logged Out', type: 'normal', duration: 5000 })
     }
   }
 }

@@ -83,7 +83,7 @@ export default {
       tempInput.select()
       document.execCommand('copy')
       document.body.removeChild(tempInput)
-      this.pushNotification({ message: 'URL Copied to Clipboard!', type: 'normal', duration: 5000 })
+      this.pushNotification({ message: 'Share Link Copied to Clipboard!', type: 'normal', duration: 5000 })
       this.$router.push({ path: link, params: { copiedLink: true } })
     },
     urlEncodeShare (string) {

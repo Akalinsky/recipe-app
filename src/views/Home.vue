@@ -3,6 +3,7 @@
     <Cookbook />
     <RecipeView />
     <EditRecipe />
+    <NoResults v-if="!hasSearchResults"/>
   </div>
 </template>
 
@@ -10,13 +11,20 @@
 import Cookbook from '@/components/app/Cookbook'
 import RecipeView from '@/components/app/RecipeView'
 import EditRecipe from '@/components/app/EditRecipe'
-// @ is an alias to /src
+import NoResults from '@/components/app/NoResults'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
     Cookbook,
     RecipeView,
-    EditRecipe
+    EditRecipe,
+    NoResults
+  },
+  computed: {
+    ...mapGetters([
+      'hasSearchResults'
+    ])
   }
 }
 </script>
