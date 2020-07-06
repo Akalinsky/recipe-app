@@ -12,6 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cookbook: [],
+    recipesFetched: false,
     filteredCookbook: [],
     searchCookbook: '',
     currentRecipeIndex: 0,
@@ -57,6 +58,7 @@ export default new Vuex.Store({
     },
     setCookbook (state, recipes) {
       state.cookbook = recipes
+      state.recipesFetched = true
     },
     filterCookbook (state, search) {
       state.searchCookbook = search
@@ -306,6 +308,13 @@ export default new Vuex.Store({
         return state.cookbook
       }
     },
+    getCurrentCookbookName: state => {
+      if (state.searchCookbook !== '') {
+        return 'search'
+      } else {
+        return 'normal'
+      }
+    },
     userLoggedIn: state => {
       if (state.token !== null) {
         return true
@@ -313,8 +322,15 @@ export default new Vuex.Store({
         return false
       }
     },
-    hasSearchResults: state => {
-      if (state.searchCookbook !== '' && state.filteredCookbook.length === 0) {
+    hasSearchResults: (state, getters) => {
+      if (state.searchCookbook !== '' && getters.getCurrentCookbook.length === 0) {
+        return false
+      } else {
+        return true
+      }
+    },
+    hasRecipes: (state, getters) => {
+      if (getters.getCurrentCookbook.length === 0) {
         return false
       } else {
         return true

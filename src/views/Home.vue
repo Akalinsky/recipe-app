@@ -3,7 +3,7 @@
     <Cookbook />
     <RecipeView />
     <EditRecipe />
-    <NoResults v-if="!hasSearchResults"/>
+    <NoRecipes v-if="!hasRecipes && recipesFetched"/>
   </div>
 </template>
 
@@ -11,19 +11,23 @@
 import Cookbook from '@/components/app/Cookbook'
 import RecipeView from '@/components/app/RecipeView'
 import EditRecipe from '@/components/app/EditRecipe'
-import NoResults from '@/components/app/NoResults'
-import { mapGetters } from 'vuex'
+import NoRecipes from '@/components/app/NoRecipes'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
     Cookbook,
     RecipeView,
     EditRecipe,
-    NoResults
+    NoRecipes
   },
   computed: {
+    ...mapState([
+      'recipesFetched'
+    ]),
     ...mapGetters([
-      'hasSearchResults'
+      'hasSearchResults',
+      'hasRecipes'
     ])
   }
 }
