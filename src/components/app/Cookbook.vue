@@ -103,6 +103,7 @@ export default {
         padding: 7px;
         width: 100%;
         height: 40px;
+        background: #f3f3f3;
         &:focus {
           outline: none;
         }

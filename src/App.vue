@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <Header />
+    <transition name="fade-slide" mode="out-in">
     <router-view/>
+    </transition>
     <notifications-list />
     <vue-confirm-dialog class="confirm-modal" />
   </div>
@@ -74,4 +76,15 @@ html,body {
   // effects
   --simple-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 3px 1px -2px rgba(0,0,0,0.12),0 1px 5px 0 rgba(0,0,0,0.2);
 }
+
+// Transitions
+
+.fade-slide-enter-active, .fade-slide-leave-active {
+  transition: all .25s;
+}
+.fade-slide-enter, .fade-slide-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
 </style>
