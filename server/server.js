@@ -36,14 +36,18 @@ app.get('/recipe/:id', async (req, res) => {
 })
 
 app.delete('/', async (req, res) => {
-  const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
-  if (validReq) {
-    try {
-      const recipes = await loadRecipesCollection()
-      res.send(await recipes.deleteOne({ _id: req.body._id }))
-    } catch (err) {
-      console.error(err)
-      return res.status(500).send(standardError)
+  if (req.headers.authorization) {
+    const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
+    if (validReq) {
+      try {
+        const recipes = await loadRecipesCollection()
+        res.send(await recipes.deleteOne({ _id: req.body._id }))
+      } catch (err) {
+        console.error(err)
+        return res.status(500).send(standardError)
+      }
+    } else {
+      res.status(403).send(accessDenied)
     }
   } else {
     res.status(403).send(accessDenied)
@@ -51,14 +55,18 @@ app.delete('/', async (req, res) => {
 })
 
 app.post('/', async (req, res) => {
-  const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
-  if (validReq) {
-    try {
-      const recipes = await loadRecipesCollection()
-      res.send(await recipes.insertOne(req.body))
-    } catch (err) {
-      console.error(err)
-      return res.status(500).send(standardError)
+  if (req.headers.authorization) {
+    const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
+    if (validReq) {
+      try {
+        const recipes = await loadRecipesCollection()
+        res.send(await recipes.insertOne(req.body))
+      } catch (err) {
+        console.error(err)
+        return res.status(500).send(standardError)
+      }
+    } else {
+      res.status(403).send(accessDenied)
     }
   } else {
     res.status(403).send(accessDenied)
@@ -66,28 +74,32 @@ app.post('/', async (req, res) => {
 })
 
 app.put('/', async (req, res) => {
-  const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
-  if (validReq) {
-    try {
-      const recipes = await loadRecipesCollection()
-      res.send(await recipes.findOneAndUpdate(
-        { _id: req.body._id },
-        {
-          $set: {
-            name: req.body.name,
-            description: req.body.description,
-            tags: req.body.tags,
-            ingredients: req.body.ingredients,
-            directions: req.body.directions
+  if (req.headers.authorization) {
+    const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
+    if (validReq) {
+      try {
+        const recipes = await loadRecipesCollection()
+        res.send(await recipes.findOneAndUpdate(
+          { _id: req.body._id },
+          {
+            $set: {
+              name: req.body.name,
+              description: req.body.description,
+              tags: req.body.tags,
+              ingredients: req.body.ingredients,
+              directions: req.body.directions
+            }
+          },
+          {
+            upsert: true
           }
-        },
-        {
-          upsert: true
-        }
-      ))
-    } catch (err) {
-      console.error(err)
-      return res.status(500).send(standardError)
+        ))
+      } catch (err) {
+        console.error(err)
+        return res.status(500).send(standardError)
+      }
+    } else {
+      res.status(403).send(accessDenied)
     }
   } else {
     res.status(403).send(accessDenied)
