@@ -22,9 +22,9 @@ export default {
     NoRecipes
   },
   computed: {
-    ...mapState([
-      'recipesFetched'
-    ]),
+    ...mapState({
+      recipesFetched: state => state.cookbook.recipesFetched
+    }),
     ...mapGetters([
       'hasSearchResults',
       'hasRecipes'

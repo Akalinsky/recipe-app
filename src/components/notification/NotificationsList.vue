@@ -12,9 +12,11 @@ export default {
   components: {
     NotificationCard
   },
-  computed: mapState([
-    'notifications'
-  ])
+  computed: {
+    ...mapState({
+      notifications: state => state.util.notifications
+    })
+  }
 }
 </script>
 

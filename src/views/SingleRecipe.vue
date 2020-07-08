@@ -53,9 +53,9 @@ export default {
     VueShowdown
   },
   computed: {
-    ...mapState([
-      'singleRecipe'
-    ])
+    ...mapState({
+      singleRecipe: state => state.singleRecipe.singleRecipe
+    })
   },
   methods: {
     ...mapActions([

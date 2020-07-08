@@ -25,13 +25,13 @@ export default {
     AddRecipe
   },
   computed: {
-    ...mapState([
-      'searchCookbook',
-      'filteredCookbook',
-      'currentRecipeIndex',
-      'editingRecipe',
-      'changesDetected'
-    ]),
+    ...mapState({
+      searchCookbook: state => state.cookbook.searchCookbook,
+      filteredCookbook: state => state.cookbook.filteredCookbook,
+      currentRecipeIndex: state => state.cookbook.currentRecipeIndex,
+      editingRecipe: state => state.editRecipe.editingRecipe,
+      changesDetected: state => state.editingRecipe.changesDetected
+    }),
     ...mapGetters({
       cookbook: 'getCurrentCookbook',
       userLoggedIn: 'userLoggedIn'

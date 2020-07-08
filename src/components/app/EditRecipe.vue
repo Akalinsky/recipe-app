@@ -65,9 +65,9 @@ export default {
     ])
   },
   computed: {
-    ...mapState([
-      'editingRecipe'
-    ]),
+    ...mapState({
+      editingRecipe: state => state.editRecipe.editingRecipe
+    }),
     ...mapGetters([
       'getCurrentRecipe'
     ]),

@@ -2,9 +2,9 @@ const jwt = require('jsonwebtoken')
 
 module.exports = {
   jwtSignUser (user) {
-    const ONE_WEEK = 60 * 60 * 24 * 7
+    const ONE_DAY = 60 * 60 * 24
     return jwt.sign(user, 'secret', {
-      expiresIn: ONE_WEEK
+      expiresIn: ONE_DAY
     })
   },
   jwtVerify (token) {
