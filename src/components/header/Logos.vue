@@ -1,6 +1,6 @@
 <template>
   <div class="header-left">
-    <h2 class="page-title"><router-link :to="'/'">My Recipe App</router-link></h2>
+    <h2 class="page-title"><router-link :to="'/'">Andrew's Recipes</router-link></h2>
   </div>
 </template>
 
