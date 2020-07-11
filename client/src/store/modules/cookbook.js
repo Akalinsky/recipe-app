@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { filterCookbook } from '../helpers/search.js'
 import { setStorage } from '../helpers/localStorage.js'
 
-const dbURL = 'http://localhost:3000/'
+const fetchURL = 'http://localhost:3000/'
 
 export default {
   state: {
@@ -57,7 +57,7 @@ export default {
   actions: {
     addRecipe ({ commit, dispatch, rootState }) {
       const uuid = uuidv4()
-      window.fetch(dbURL, {
+      window.fetch(fetchURL, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
@@ -110,7 +110,7 @@ export default {
         },
         callback: confirm => {
           if (confirm) {
-            window.fetch(dbURL, {
+            window.fetch(fetchURL, {
               method: 'delete',
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -151,7 +151,7 @@ export default {
       commit('filterCookbook', search.target.value)
     },
     fetchCookbook ({ commit, dispatch }) {
-      window.fetch(dbURL)
+      window.fetch(fetchURL)
         .then(response => response.json())
         .then(data => {
           if (data.error) {

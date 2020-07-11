@@ -13,11 +13,18 @@ export default {
 
 <style lang="scss">
   .header-left {
+      display: flex;
+      flex-flow: column nowrap;
+      align-self: center;
     h2.page-title {
       color: #fff;
       margin: 0;
-      padding: 10px 0 10px 10px;
       font-weight: normal;
+      padding-left: 10px;
+      font-size: 20px;
+      @media screen and (min-height: 767px) {
+        font-size: 24px;
+      }
       a {
         color: #fff;
         text-decoration: none;

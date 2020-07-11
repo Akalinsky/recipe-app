@@ -1,6 +1,6 @@
 import router from '../../router/router.js'
 import { setStorage, readStorage, clearStorage } from '../helpers/localStorage.js'
-const dbURL = 'http://localhost:3000/'
+const fetchURL = 'http://localhost:3000/'
 
 export default {
   state: {
@@ -19,7 +19,7 @@ export default {
 
   actions: {
     loginUser ({ commit, dispatch }, credentials) {
-      window.fetch(dbURL + 'login', {
+      window.fetch(fetchURL + 'login', {
         method: 'post',
         headers: { 'Content-Type': 'application/json; charset=UTF-8' },
         body: JSON.stringify({
@@ -47,7 +47,7 @@ export default {
       dispatch('pushNotification', { message: 'You Have Been Logged Out', type: 'normal', duration: 5000 })
     },
     registerUser ({ commit, dispatch }, credentials) {
-      window.fetch(dbURL + 'register', {
+      window.fetch(fetchURL + 'register', {
         method: 'post',
         headers: { 'Content-Type': 'application/json; charset=UTF-8' },
         body: JSON.stringify({
@@ -78,7 +78,7 @@ export default {
       }
     },
     validateUser ({ commit, dispatch }, userToken) {
-      window.fetch(dbURL + 'validate', {
+      window.fetch(fetchURL + 'validate', {
         method: 'post',
         headers: { 'Content-Type': 'application/json; charset=UTF-8' },
         body: JSON.stringify({

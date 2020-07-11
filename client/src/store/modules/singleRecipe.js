@@ -1,4 +1,4 @@
-const dbURL = 'http://localhost:3000/'
+const fetchURL = 'http://localhost:3000/'
 
 export default {
   state: {
@@ -13,7 +13,7 @@ export default {
 
   actions: {
     fetchSingleRecipe ({ commit, dispatch }, id) {
-      const singleRecipeURL = dbURL + 'recipe/' + id
+      const singleRecipeURL = fetchURL + 'recipe/' + id
       window.fetch(singleRecipeURL)
         .then(response => response.json())
         .then(data => {

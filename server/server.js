@@ -7,7 +7,7 @@ const jwtHelpers = require('./helpers/jwtHelpers')
 const { v4: uuidv4 } = require('uuid')
 
 app.use(cors())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 const standardError = { error: 'Something Went wrong, please try again' }
@@ -189,6 +189,11 @@ app.post('/validate', async (req, res) => {
 app.listen(3000, function () {
   console.log('listening on 3000')
 })
+
+process.on('SIGINT', function() {
+  console.log( "\nGracefully shutting down from SIGINT (Ctrl-C)" );
+  process.exit(1);
+});
 
 async function loadRecipesCollection () {
   const client = await MongoClient.connect(

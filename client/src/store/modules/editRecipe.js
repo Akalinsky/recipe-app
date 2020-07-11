@@ -1,5 +1,5 @@
 import { setStorage } from '../helpers/localStorage.js'
-const dbURL = 'http://localhost:3000/'
+const fetchURL = 'http://localhost:3000/'
 
 export default {
   state: {
@@ -27,7 +27,7 @@ export default {
   actions: {
     saveRecipe ({ state, commit, dispatch, rootState }) {
       dispatch('updateLoading', true)
-      window.fetch(dbURL, {
+      window.fetch(fetchURL, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
