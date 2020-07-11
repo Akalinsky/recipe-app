@@ -157,6 +157,7 @@ export default {
           if (data.error) {
             dispatch('pushNotification', { message: data.error, type: 'error', duration: null })
           } else {
+            dispatch('updateLoading', false)
             commit('setCookbook', data)
           }
         })

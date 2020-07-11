@@ -1,5 +1,6 @@
 <template>
   <div class="cookbook-view">
+    <LoadingMessage v-if="loading" />
     <Cookbook />
     <RecipeView />
     <EditRecipe />
@@ -8,6 +9,7 @@
 </template>
 
 <script>
+import LoadingMessage from '@/components/utilities/LoadingMessage'
 import Cookbook from '@/components/app/Cookbook'
 import RecipeView from '@/components/app/RecipeView'
 import EditRecipe from '@/components/app/EditRecipe'
@@ -16,6 +18,7 @@ import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
+    LoadingMessage,
     Cookbook,
     RecipeView,
     EditRecipe,
@@ -23,7 +26,8 @@ export default {
   },
   computed: {
     ...mapState({
-      recipesFetched: state => state.cookbook.recipesFetched
+      recipesFetched: state => state.cookbook.recipesFetched,
+      loading: state => state.util.loading
     }),
     ...mapGetters([
       'hasSearchResults',

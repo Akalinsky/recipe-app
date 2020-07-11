@@ -11,7 +11,7 @@
 
 <script>
 import Header from '@/components/header/Header'
-import NotificationsList from '@/components/notification/NotificationsList'
+import NotificationsList from '@/components/utilities/NotificationsList'
 import { mapActions } from 'vuex'
 
 export default {

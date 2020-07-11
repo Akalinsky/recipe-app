@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import NotificationCard from '@/components/notification/NotificationCard'
+import NotificationCard from '@/components/utilities/NotificationCard'
 import { mapState } from 'vuex'
 
 export default {

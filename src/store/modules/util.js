@@ -1,7 +1,8 @@
 export default {
 
   state: () => ({
-    notifications: []
+    notifications: [],
+    loading: true
   }),
 
   mutations: {
@@ -15,6 +16,9 @@ export default {
       state.notifications = state.notifications.filter(notification => {
         return notification.id !== notificationToRemove
       })
+    },
+    updateLoading (state, status) {
+      state.loading = status
     }
   },
 
@@ -24,6 +28,9 @@ export default {
     },
     removeNotification ({ commit }, notification) {
       commit('removeNotification', notification)
+    },
+    updateLoading ({ commit }, status) {
+      commit('updateLoading', status)
     }
 
   },

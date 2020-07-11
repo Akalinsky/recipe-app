@@ -26,6 +26,7 @@ export default {
 
   actions: {
     saveRecipe ({ state, commit, dispatch, rootState }) {
+      dispatch('updateLoading', true)
       window.fetch(dbURL, {
         method: 'put',
         headers: {
@@ -36,6 +37,7 @@ export default {
       })
         .then(res => {
           if (res.ok) {
+            dispatch('updateLoading', false)
             commit('updateCookbook', state.changedRecipe)
             commit('editingStatus', false)
             commit('updateChanges', false)
