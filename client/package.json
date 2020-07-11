@@ -4,15 +4,11 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "start": "concurrently \"npm run serve\" \"nodemon server/server.js\"",
+    "start": "npm run serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "bcrypt": "^5.0.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.5.8",
     "uuid": "^8.1.0",
     "vue": "^2.6.11",
     "vue-confirm-dialog": "^1.0.2",
@@ -27,8 +23,6 @@
     "@vue/cli-plugin-vuex": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
     "@vue/eslint-config-standard": "^5.1.2",
-    "concurrently": "^5.2.0",
-    "cors": "^2.8.5",
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
@@ -36,7 +30,6 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^4.12.0",
-    "nodemon": "^2.0.4",
     "sass-loader": "^8.0.2",
     "vue-template-compiler": "^2.6.11"
   },
