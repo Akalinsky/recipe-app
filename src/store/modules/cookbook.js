@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { filterCookbook } from '../helpers/search.js'
+import { setStorage } from '../helpers/localStorage.js'
 
 const dbURL = 'http://localhost:3000/'
 
@@ -76,6 +77,13 @@ export default {
             commit('addRecipe', uuid)
             commit('changeCurrentRecipe', 0)
             dispatch('pushNotification', { message: 'Added New Recipe', type: 'normal', duration: 3000 })
+            res.json()
+              .then(data => {
+                if (data.token) {
+                  commit('setToken', data.token)
+                  setStorage({ token: data.token })
+                }
+              })
           } else {
             console.error(`Error ${res.status} ${res.statusText}`)
             if (res.error) {
@@ -116,6 +124,13 @@ export default {
                 if (res.ok) {
                   commit('deleteRecipe', deletedRecipe)
                   dispatch('pushNotification', { message: `Deleted ${deletedRecipe.name}`, type: 'normal', duration: 3000 })
+                  res.json()
+                    .then(data => {
+                      if (data.token) {
+                        commit('setToken', data.token)
+                        setStorage({ token: data.token })
+                      }
+                    })
                 } else {
                   console.error(`Error ${res.status} ${res.statusText}`)
                   if (res.error) {

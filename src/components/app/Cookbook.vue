@@ -30,7 +30,7 @@ export default {
       filteredCookbook: state => state.cookbook.filteredCookbook,
       currentRecipeIndex: state => state.cookbook.currentRecipeIndex,
       editingRecipe: state => state.editRecipe.editingRecipe,
-      changesDetected: state => state.editingRecipe.changesDetected
+      changesDetected: state => state.editRecipe.changesDetected
     }),
     ...mapGetters({
       cookbook: 'getCurrentCookbook',

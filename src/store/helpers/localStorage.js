@@ -12,7 +12,6 @@ export function setStorage (credentials) {
 
 export function readStorage () {
   const user = {}
-  user.username = window.localStorage.getItem('username')
   user.token = window.localStorage.getItem('token')
   return user
 }

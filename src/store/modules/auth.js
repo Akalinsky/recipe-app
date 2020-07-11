@@ -1,19 +1,19 @@
 import router from '../../router/router.js'
-import { setStorage, readStorage } from '../helpers/localStorage.js'
+import { setStorage, readStorage, clearStorage } from '../helpers/localStorage.js'
 const dbURL = 'http://localhost:3000/'
 
 export default {
   state: {
-    user: null,
-    token: null
+    token: null,
+    verifying: false
   },
 
   mutations: {
     setToken (state, token) {
       state.token = token
     },
-    setUser (state, username) {
-      state.user = username
+    setVerifying (state, status) {
+      state.verifying = status
     }
   },
 
@@ -32,16 +32,19 @@ export default {
           if (data.error) {
             dispatch('pushNotification', { message: data.error, type: 'error', duration: null })
           } else {
-            commit('setUser', data.username)
             commit('setToken', data.token)
             setStorage({
-              token: data.token,
-              username: data.username
+              token: data.token
             })
             router.push('/')
             dispatch('pushNotification', { message: 'Successfully Logged in!', type: 'success', duration: 5000 })
           }
         })
+    },
+    logoutUser ({ commit, dispatch }) {
+      commit('setToken', null)
+      clearStorage(['token'])
+      dispatch('pushNotification', { message: 'You Have Been Logged Out', type: 'normal', duration: 5000 })
     },
     registerUser ({ commit, dispatch }, credentials) {
       window.fetch(dbURL + 'register', {
@@ -57,11 +60,9 @@ export default {
           if (data.error) {
             dispatch('pushNotification', { message: data.error, type: 'warning', duration: 3000 })
           } else {
-            commit('setUser', data.username)
             commit('setToken', data.token)
             setStorage({
-              token: data.token,
-              username: data.username
+              token: data.token
             })
             router.push('/')
             dispatch('pushNotification', { message: 'Account Creation Successful', type: 'success', duration: 5000 })
@@ -69,15 +70,37 @@ export default {
           }
         })
     },
-    userFromStorage ({ commit }) {
+    userFromStorage ({ commit, dispatch }) {
       const user = readStorage()
-      if (user) {
-        commit('setUser', user.username)
-        commit('setToken', user.token)
+      if (user.token) {
+        commit('setVerifying', true)
+        dispatch('validateUser', user.token)
       }
+    },
+    validateUser ({ commit, dispatch }, userToken) {
+      window.fetch(dbURL + 'validate', {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+        body: JSON.stringify({
+          token: userToken
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            commit('setVerifying', false)
+            clearStorage(['token'])
+            dispatch('pushNotification', { message: 'Session Expired, Please Login again', type: 'normal', duration: null })
+          } else {
+            commit('setToken', userToken)
+            commit('setVerifying', false)
+            if (data.notification) {
+              dispatch('pushNotification', { message: 'Successfully Logged in!', type: 'success', duration: 5000 })
+            }
+          }
+        })
     }
   },
-
   getters: {
     userLoggedIn: state => {
       if (state.token !== null) {

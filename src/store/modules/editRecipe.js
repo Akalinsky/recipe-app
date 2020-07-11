@@ -1,3 +1,4 @@
+import { setStorage } from '../helpers/localStorage.js'
 const dbURL = 'http://localhost:3000/'
 
 export default {
@@ -39,6 +40,13 @@ export default {
             commit('editingStatus', false)
             commit('updateChanges', false)
             dispatch('pushNotification', { message: 'Recipe Saved', type: 'success', duration: 3000 })
+            res.json()
+              .then(data => {
+                if (data.token) {
+                  commit('setToken', data.token)
+                  setStorage({ token: data.token })
+                }
+              })
           } else {
             console.error(`Error ${res.status} ${res.statusText}`)
             if (res.error) {

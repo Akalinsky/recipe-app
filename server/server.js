@@ -4,6 +4,7 @@ const MongoClient = require('mongodb').MongoClient
 const cors = require('cors')
 const passwordAuth = require('./helpers/passwordAuth')
 const jwtHelpers = require('./helpers/jwtHelpers')
+const { v4: uuidv4 } = require('uuid')
 
 app.use(cors())
 app.use(express.urlencoded({ extended: false }))
@@ -35,51 +36,47 @@ app.get('/recipe/:id', async (req, res) => {
   }
 })
 
-app.delete('/', async (req, res) => {
-  if (req.headers.authorization) {
-    const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
-    if (validReq) {
-      try {
-        const recipes = await loadRecipesCollection()
-        res.send(await recipes.deleteOne({ _id: req.body._id }))
-      } catch (err) {
-        console.error(err)
-        return res.status(500).send(standardError)
-      }
+app.delete('/', checkJWT, async (req, res) => {
+  try {
+    const recipes = await loadRecipesCollection()
+    await recipes.deleteOne({ _id: req.body._id })
+    if (req.locals) {
+      res.send({
+        token: req.locals.token
+      })
     } else {
-      res.status(403).send(accessDenied)
+      res.send({ message: 'success' })
     }
-  } else {
-    res.status(403).send(accessDenied)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send(standardError)
   }
 })
 
-app.post('/', async (req, res) => {
-  if (req.headers.authorization) {
-    const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
-    if (validReq) {
-      try {
-        const recipes = await loadRecipesCollection()
-        res.send(await recipes.insertOne(req.body))
-      } catch (err) {
-        console.error(err)
-        return res.status(500).send(standardError)
-      }
+app.post('/', checkJWT, async (req, res) => {
+  try {
+    const recipes = await loadRecipesCollection()
+    await recipes.insertOne(req.body)
+    if (req.locals) {
+      res.send({
+        token: req.locals.token
+      })
     } else {
-      res.status(403).send(accessDenied)
+      res.send({ message: 'success' })
     }
-  } else {
-    res.status(403).send(accessDenied)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send(standardError)
   }
 })
 
-app.put('/', async (req, res) => {
+app.put('/', checkJWT, async (req, res) => {
   if (req.headers.authorization) {
     const validReq = jwtHelpers.jwtVerify(req.headers.authorization.substring(7))
     if (validReq) {
       try {
         const recipes = await loadRecipesCollection()
-        res.send(await recipes.findOneAndUpdate(
+        await recipes.findOneAndUpdate(
           { _id: req.body._id },
           {
             $set: {
@@ -93,7 +90,14 @@ app.put('/', async (req, res) => {
           {
             upsert: true
           }
-        ))
+        )
+        if (req.locals) {
+          res.send({
+            token: req.locals.token
+          })
+        } else {
+          res.send({ message: 'success' })
+        }
       } catch (err) {
         console.error(err)
         return res.status(500).send(standardError)
@@ -116,18 +120,20 @@ app.post('/register', async (req, res) => {
     if (existingUsername) {
       res.send({ error: 'Username already exists' })
     } else {
+      const userID = uuidv4()
       try {
         const addUser = await users.insertOne(
           {
+            uuid: userID,
             username: userObj.username,
             password: userObj.password
           }
         )
-
-        res.send({
-          username: addUser.ops[0].username,
-          token: jwtHelpers.jwtSignUser(userObj)
-        })
+        if (addUser) {
+          res.send({
+            token: jwtHelpers.jwtSignUser({ uuid: userID })
+          })
+        }
       } catch (err) {
         console.error(err)
         return res.status(500).send(standardError)
@@ -155,9 +161,25 @@ app.post('/login', async (req, res) => {
     }
 
     res.send({
-      username: user.username,
-      token: jwtHelpers.jwtSignUser({ username: user.username, password: user.password })
+      token: jwtHelpers.jwtSignUser({ uuid: user.uuid })
     })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).send(standardError)
+  }
+})
+
+app.post('/validate', async (req, res) => {
+  try {
+    const token = req.body.token
+    if (jwtHelpers.jwtVerify(token).uuid) {
+      if (req.headers.referer.includes('/recipe/')) {
+        return res.status(200).send({ notification: false })
+      }
+      return res.status(200).send({ notification: true })
+    } else {
+      return res.status(500).send(standardError)
+    }
   } catch (err) {
     console.error(err)
     return res.status(500).send(standardError)
@@ -186,4 +208,22 @@ async function loadUsersCollection () {
     }
   )
   return client.db('cookbook').collection('users')
+}
+
+function checkJWT (req, res, next) {
+  if (req.headers.authorization) {
+    const token = req.headers.authorization.split(' ')[1]
+    const validReq = jwtHelpers.jwtVerify(token)
+
+    if (validReq.exp && Date.now() >= validReq.exp * 1000) {
+      req.locals = { token: jwtHelpers.jwtSignUser({ uuid: validReq.uuid }) }
+      next()
+    } else if (!validReq.uuid) {
+      return res.status(401).send(standardError)
+    } else {
+      next()
+    }
+  } else {
+    return res.status(401).send(standardError)
+  }
 }
