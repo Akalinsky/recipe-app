@@ -1,4 +1,4 @@
-const fetchURL = 'http://akalinsky.com/recipe-api'
+const fetchURL = 'http://akalinsky.com/recipe-api/'
 
 export default {
   state: {

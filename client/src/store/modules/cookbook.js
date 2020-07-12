@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { filterCookbook } from '../helpers/search.js'
 import { setStorage } from '../helpers/localStorage.js'
 
-const fetchURL = 'http://akalinsky.com/recipe-api'
+const fetchURL = 'http://akalinsky.com/recipe-api/'
 
 export default {
   state: {
