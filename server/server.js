@@ -1,12 +1,16 @@
+const config = require('./config')
 const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
-const cors = require('cors')
 const passwordAuth = require('./helpers/passwordAuth')
 const jwtHelpers = require('./helpers/jwtHelpers')
 const { v4: uuidv4 } = require('uuid')
 
-app.use(cors())
+if (config.enableCors) {
+  const cors = require('cors')
+  app.use(cors())
+}
+
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
@@ -114,30 +118,42 @@ app.post('/register', async (req, res) => {
   const hash = await passwordAuth.hashPassword(req.body.password)
   try {
     const users = await loadUsersCollection()
+    let userCount = 1
+    users.countDocuments({}, (err, result) => {
+      if (err) {
+        console.log(err)
+        res.send({ error: 'An unexpected error occurred'})
+      } else {
+        userCount = result
+      }
+    })
     const userObj = { username: req.body.username, password: hash }
     const existingUsername = await users.findOne({ username: userObj.username })
-
-    if (existingUsername) {
-      res.send({ error: 'Username already exists' })
-    } else {
-      const userID = uuidv4()
-      try {
-        const addUser = await users.insertOne(
-          {
-            uuid: userID,
-            username: userObj.username,
-            password: userObj.password
+    if (userCount < 1) {
+      if (existingUsername) {
+        res.send({ error: 'Username already exists' })
+      } else {
+        const userID = uuidv4()
+        try {
+          const addUser = await users.insertOne(
+            {
+              uuid: userID,
+              username: userObj.username,
+              password: userObj.password
+            }
+          )
+          if (addUser) {
+            res.send({
+              token: jwtHelpers.jwtSignUser({ uuid: userID })
+            })
           }
-        )
-        if (addUser) {
-          res.send({
-            token: jwtHelpers.jwtSignUser({ uuid: userID })
-          })
+        } catch (err) {
+          console.error(err)
+          return res.status(500).send(standardError)
         }
-      } catch (err) {
-        console.error(err)
-        return res.status(500).send(standardError)
       }
+    } else {
+      res.send({ error: 'We are not accepting additional registrations at this time'})
     }
   } catch (err) {
     console.error(err)
@@ -186,33 +202,33 @@ app.post('/validate', async (req, res) => {
   }
 })
 
-app.listen(3000, function () {
-  console.log('listening on 3000')
+app.listen(config.port, function () {
+  console.log(`listening on ${config.port}`)
 })
 
 process.on('SIGINT', function() {
-  console.log( "\nGracefully shutting down from SIGINT (Ctrl-C)" );
+  console.log( '\nGracefully shutting down from SIGINT (Ctrl-C)' );
   process.exit(1);
 });
 
 async function loadRecipesCollection () {
   const client = await MongoClient.connect(
-    'mongodb://127.0.0.1:27017',
+    config.db.host,
     {
       useUnifiedTopology: true
     }
   )
-  return client.db('cookbook').collection('recipes')
+  return client.db(config.db.database).collection(config.db.recipesCollection)
 }
 
 async function loadUsersCollection () {
   const client = await MongoClient.connect(
-    'mongodb://127.0.0.1:27017',
+    config.db.host,
     {
       useUnifiedTopology: true
     }
   )
-  return client.db('cookbook').collection('users')
+  return client.db(config.db.database).collection(config.db.userCollection)
 }
 
 function checkJWT (req, res, next) {
