@@ -1,4 +1,4 @@
-const fetchURL = 'http://localhost:3000/'
+const fetchURL = 'http://localhost:3000/recipe-api'
 
 export default {
   state: {
