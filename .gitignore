@@ -6,6 +6,7 @@ node_modules
 .env.local
 .env.*.local
 .env
+recipe-app-pm2.json
 
 # Log files
 npm-debug.log*
