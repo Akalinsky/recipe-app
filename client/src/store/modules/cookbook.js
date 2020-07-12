@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { filterCookbook } from '../helpers/search.js'
 import { setStorage } from '../helpers/localStorage.js'
 
-const fetchURL = 'https://akalinsky.com/recipe-api/'
+const fetchURL = process.env.VUE_APP_API_KEY
 
 export default {
   state: {

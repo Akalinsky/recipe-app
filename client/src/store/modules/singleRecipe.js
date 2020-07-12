@@ -1,4 +1,4 @@
-const fetchURL = 'https://akalinsky.com/recipe-api/'
+const fetchURL = process.env.VUE_APP_API_KEY
 
 export default {
   state: {
