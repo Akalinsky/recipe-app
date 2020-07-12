@@ -1,6 +1,6 @@
 import router from '../../router/router.js'
 import { setStorage, readStorage, clearStorage } from '../helpers/localStorage.js'
-const fetchURL = 'http://akalinsky.com/recipe-api/'
+const fetchURL = 'https://akalinsky.com/recipe-api/'
 
 export default {
   state: {
