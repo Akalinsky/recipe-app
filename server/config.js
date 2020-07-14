@@ -8,5 +8,5 @@ module.exports = {
 
   },
   jwtSecret: process.env.RECIPE_APP_SERVER_JWT_SECRET || 'secret',
-  enableCors: process.env.RECIPE_APP_SERVER_CORS || true
+  corsAllowed: process.env.RECIPE_APP_SERVER_ORIGIN_ALLOWED_URL || 'http://localhost:3000'
 }
