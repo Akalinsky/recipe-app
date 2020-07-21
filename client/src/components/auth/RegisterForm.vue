@@ -2,7 +2,7 @@
   <div class="register-form">
     <h2>Register</h2>
     <form @submit.prevent="registerUser( {username: username, password: password})">
-      <input type="text" placeholder="Password" required v-model="username">
+      <input type="text" placeholder="Username" required v-model="username">
 
       <input type="password" placeholder="Password" required v-model="password">
 
