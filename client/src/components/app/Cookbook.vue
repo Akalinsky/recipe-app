@@ -30,7 +30,8 @@ export default {
       filteredCookbook: state => state.cookbook.filteredCookbook,
       currentRecipeIndex: state => state.cookbook.currentRecipeIndex,
       editingRecipe: state => state.editRecipe.editingRecipe,
-      changesDetected: state => state.editRecipe.changesDetected
+      changesDetected: state => state.editRecipe.changesDetected,
+      isMobile: state => state.cookbook.isMobile
     }),
     ...mapGetters({
       cookbook: 'getCurrentCookbook',
@@ -58,17 +59,15 @@ export default {
             },
             callback: confirm => {
               if (confirm) {
-                this.endEditing()
                 this.updateDetected(false)
-                this.changeCurrentRecipe(index)
               }
             }
           }
         )
-      } else {
-        this.endEditing()
-        this.changeCurrentRecipe(index)
       }
+      this.endEditing()
+      this.changeCurrentRecipe(index)
+      this.maybeScrollToRecipe()
     },
     collapseCookbook (event) {
       const cookbookList = document.getElementsByClassName('recipes-list')[0]
@@ -78,6 +77,11 @@ export default {
         event.target.textContent = 'Hide Recipes'
       } else {
         event.target.textContent = 'Show Recipes'
+      }
+    },
+    maybeScrollToRecipe () {
+      if (this.isMobile) {
+        document.querySelector('.recipe-view').scrollIntoView({ behavior: 'smooth' })
       }
     }
   },

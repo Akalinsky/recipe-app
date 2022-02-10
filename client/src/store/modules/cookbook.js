@@ -11,7 +11,8 @@ export default {
     recipesFetched: false,
     filteredCookbook: [],
     searchCookbook: '',
-    currentRecipeIndex: 0
+    currentRecipeIndex: 0,
+    isMobile: window.screen.width < 1024
   },
 
   mutations: {
@@ -51,6 +52,9 @@ export default {
     },
     updateCookbook (state, payload) {
       Vue.set(state.cookbook, state.currentRecipeIndex, payload)
+    },
+    changeMobileState (state, payload) {
+      state.isMobile = payload
     }
   },
 
@@ -99,6 +103,9 @@ export default {
     },
     changeCurrentRecipe ({ commit }, recipeIndex) {
       commit('changeCurrentRecipe', recipeIndex)
+    },
+    changeMobileState ({ commit }, newState) {
+      commit('changeMobileState', newState)
     },
     deleteRecipe ({ commit, dispatch, rootState }, deletedRecipe) {
       Vue.$confirm({
