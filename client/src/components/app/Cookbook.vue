@@ -58,17 +58,14 @@ export default {
             },
             callback: confirm => {
               if (confirm) {
-                this.endEditing()
                 this.updateDetected(false)
-                this.changeCurrentRecipe(index)
               }
             }
           }
         )
-      } else {
-        this.endEditing()
-        this.changeCurrentRecipe(index)
       }
+      this.endEditing()
+      this.changeCurrentRecipe(index)
     },
     collapseCookbook (event) {
       const cookbookList = document.getElementsByClassName('recipes-list')[0]
