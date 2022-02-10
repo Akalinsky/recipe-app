@@ -14,7 +14,7 @@ import Cookbook from '@/components/app/Cookbook'
 import RecipeView from '@/components/app/RecipeView'
 import EditRecipe from '@/components/app/EditRecipe'
 import NoRecipes from '@/components/app/NoRecipes'
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
@@ -27,12 +27,28 @@ export default {
   computed: {
     ...mapState({
       recipesFetched: state => state.cookbook.recipesFetched,
-      loading: state => state.util.loading
+      loading: state => state.util.loading,
+      isMobile: state => state.cookbook.isMobile
     }),
     ...mapGetters([
       'hasSearchResults',
       'hasRecipes'
     ])
+  },
+  methods: {
+    ...mapActions([
+      'changeMobileState'
+    ]),
+
+    onResize () {
+      const newScreenSize = window.screen.width < 1024
+      if (newScreenSize !== this.isMobile) {
+        this.changeMobileState(newScreenSize)
+      }
+    }
+  },
+  mounted () {
+    window.addEventListener('resize', this.onResize)
   }
 }
 </script>
